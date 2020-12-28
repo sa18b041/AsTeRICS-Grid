@@ -434,6 +434,7 @@
         let CONTEXT_DIRECTION = "CONTEXT_DIRECTION";
         let CONTEXT_HUFFMAN = "CONTEXT_HUFFMAN";
         let CONTEXT_SEQUENTIAL = "CONTEXT_SEQUENTIAL";
+        let CONTEXT_EYETRACKER = "CONTEXT_EYETRACKER";
 
         function getActiveText(isActive, german) {
             let text = german ? ' (aktiv)' : ' (active)'
@@ -469,6 +470,11 @@
             },
             CONTEXT_SEQUENTIAL: {
                 name: getName('Sequential input', 'Sequentielle Eingabe', inputConfig.seqEnabled),
+                icon: "fas fa-arrow-right",
+                className: inputConfig.seqEnabled ? 'boldFont' : ''
+            },
+            CONTEXT_EYETRACKER: {
+                name: getName('Eyetracker input', 'Augensteuerung Eingabe' inputConfig.seqEnabled),
                 icon: "fas fa-arrow-right",
                 className: inputConfig.seqEnabled ? 'boldFont' : ''
             }
