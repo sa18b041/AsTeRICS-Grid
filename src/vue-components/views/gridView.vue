@@ -59,6 +59,7 @@
     import {HuffmanInput} from "../../js/input/huffmanInput";
     import {DirectionInput} from "../../js/input/directionInput";
     import {SequentialInput} from "../../js/input/sequentialInput";
+    import {EyeTrackerInput} from "../../js/input/eyeTrackerInput";
 
     import HeaderIcon from '../../vue-components/components/headerIcon.vue'
     import {constants} from "../../js/util/constants";
@@ -70,6 +71,7 @@
     import DirectionInputModal from "../modals/input/directionInputModal.vue";
     import HuffmanInputModal from "../modals/input/huffmanInputModal.vue";
     import SequentialInputModal from "../modals/input/sequentialInputModal.vue";
+    import EyeTrackerInputModal from "../modals/input/eyeTrackerInputModal.vue";
     import {speechService} from "../../js/service/speechService";
     import {localStorageService} from "../../js/service/data/localStorageService";
     import {imageUtil} from "../../js/util/imageUtil";
@@ -85,7 +87,8 @@
         MODAL_DIRECTION: 'MODAL_DIRECTION',
         MODAL_HUFFMAN: 'MODAL_HUFFMAN',
         MODAL_SEQUENTIAL: 'MODAL_SEQUENTIAL',
-        MODAL_UNLOCK: 'MODAL_UNLOCK'
+        MODAL_UNLOCK: 'MODAL_UNLOCK',
+        MODAL_EYETRACKING: 'MODAL_EYETRACKING'
     };
 
     let vueConfig = {
@@ -102,6 +105,7 @@
                 directionInput: null,
                 seqInput: null,
                 huffmanInput: null,
+                eyeTrackerInput: null,
                 showModal: null,
                 modalTypes: modalTypes,
                 viewInitialized: false,
@@ -114,6 +118,7 @@
             SequentialInputModal,
             HuffmanInputModal,
             DirectionInputModal,
+            EyeTrackerInputModal,
             MouseModal,
             ScanningModal, HeaderIcon
         },
@@ -472,11 +477,10 @@
                 name: getName('Sequential input', 'Sequentielle Eingabe', inputConfig.seqEnabled),
                 icon: "fas fa-arrow-right",
                 className: inputConfig.seqEnabled ? 'boldFont' : ''
-            }
-            ,
+            },
             CONTEXT_EYETRACKER: {
                 name: getName('Eyetracking input', 'Augensteuerung Eingabe', inputConfig.seqEnabled),
-                icon: "fas fa-arrow-right",
+                icon: "fas fa-eye",
                 className: inputConfig.seqEnabled ? 'boldFont' : ''
             }
         };
@@ -511,6 +515,10 @@
                 }
                 case CONTEXT_SEQUENTIAL: {
                     vueApp.openModal(modalTypes.MODAL_SEQUENTIAL);
+                    break;
+                }
+                case CONTEXT_EYETRACKER: {
+                    vueApp.openModal(modalTypes.MODAL_HUFFMAN);
                     break;
                 }
             }
