@@ -24,6 +24,7 @@
         <mouse-modal v-if="showModal === modalTypes.MODAL_MOUSE" @close="showModal = null; reinitInputMethods();"/>
         <scanning-modal v-if="showModal === modalTypes.MODAL_SCANNING" @close="showModal = null; reinitInputMethods();"/>
         <sequential-input-modal v-if="showModal === modalTypes.MODAL_SEQUENTIAL" @close="showModal = null; reinitInputMethods();"/>
+        <eyetracking-input-modal v-if="showModal === modalTypes.MODAL_EYETRACKING" @close="showModal = null; reinitInputMethods();"/>
         <unlock-modal v-if="showModal === modalTypes.MODAL_UNLOCK" @unlock="unlock(true)" @close="showModal = null;"/>
 
         <div class="row content spaced" v-show="viewInitialized && gridData.gridElements && gridData.gridElements.length === 0 && (!globalGridData || globalGridData.length === 0)">
@@ -198,6 +199,10 @@
                 if (inputConfig.huffEnabled) {
                     this.huffmanInput = HuffmanInput.getInstanceFromConfig(inputConfig, '.grid-item-content', 'scanFocus', 'scanInactive', selectionListener);
                     this.huffmanInput.start();
+                }
+                if (inputConfig.eyetrackingEnabled) {
+                    this.eyetrackingInput = EyetrackingInput.getInstanceFromConfig(inputConfig, '.grid-item-content', 'scanFocus', 'scanInactive', selectionListener);
+                    this.eyetrackingInput.start();
                 }
 
                 if (inputConfig.scanEnabled) {
@@ -419,6 +424,7 @@
         if (vueApp && vueApp.directionInput) vueApp.directionInput.destroy();
         if (vueApp && vueApp.huffmanInput) vueApp.huffmanInput.destroy();
         if (vueApp && vueApp.seqInput) vueApp.seqInput.destroy();
+        if (vueApp && vueApp.eyetrackingInput) vueApp.eyetrackingInput.destroy();
     }
 
     function initGrid(gridId) {
@@ -518,7 +524,7 @@
                     break;
                 }
                 case CONTEXT_EYETRACKER: {
-                    vueApp.openModal(modalTypes.MODAL_HUFFMAN);
+                    vueApp.openModal(modalTypes.MODAL_SCANNING);
                     break;
                 }
             }
