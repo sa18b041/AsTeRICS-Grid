@@ -366,6 +366,7 @@
                 metadata.inputConfig.scanEnabled = urlParamService.isScanningEnabled() ? true : metadata.inputConfig.scanEnabled;
                 metadata.inputConfig.dirEnabled = urlParamService.isDirectionEnabled() ? true : metadata.inputConfig.dirEnabled;
                 metadata.inputConfig.huffEnabled = urlParamService.isHuffmanEnabled() ? true : metadata.inputConfig.huffEnabled;
+                //metadata.inputConfig.eyetrackingEnabled = urlParamService.isEytrackingEnabled()? true: metadata.inputConfig.eyetrackingEnabled;
                 dataService.saveMetadata(metadata).then(() => {
                     if (metadata.locked) {
                         $(document).trigger(constants.EVENT_SIDEBAR_CLOSE);
@@ -485,9 +486,9 @@
                 className: inputConfig.seqEnabled ? 'boldFont' : ''
             },
             CONTEXT_EYETRACKER: {
-                name: getName('Eyetracking input', 'Augensteuerung Eingabe', inputConfig.seqEnabled),
+                name: getName('Eyetracking input', 'Augensteuerung Eingabe', inputConfig.eyetrackingEnabled),
                 icon: "fas fa-eye",
-                className: inputConfig.seqEnabled ? 'boldFont' : ''
+                className: inputConfig.eyetrackingEnabled ? 'boldFont' : ''
             }
         };
 
@@ -524,7 +525,7 @@
                     break;
                 }
                 case CONTEXT_EYETRACKER: {
-                    vueApp.openModal(modalTypes.MODAL_SCANNING);
+                    vueApp.openModal(modalTypes.MODAL_EYETRACKING);
                     break;
                 }
             }

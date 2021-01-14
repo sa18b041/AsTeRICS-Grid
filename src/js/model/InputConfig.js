@@ -35,7 +35,8 @@ class InputConfig extends Model({
     huffShowNumbers: [Boolean],
     huffColorWholeElement: [Boolean],
     huffTimeout: [Number],
-    huffMarkInactive: [Boolean]
+    huffMarkInactive: [Boolean],
+    eyetrackingEnabled: [Boolean]
 }) {
     constructor(properties, elementToCopy) {
         properties = modelUtil.setDefaults(properties, elementToCopy, InputConfig);
