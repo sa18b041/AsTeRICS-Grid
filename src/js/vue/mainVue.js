@@ -15,7 +15,6 @@ import ProgressBarModal from "../../vue-components/modals/progressBarModal.vue"
 let MainVue = {};
 let app = null;
 
-
 MainVue.setViewComponent = function (component, properties) {
     if (app && app.$refs.notificationBar.tooltipOptions.closeOnNavigate) {
         MainVue.clearTooltip();

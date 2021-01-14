@@ -104,6 +104,7 @@
     import {inputEventHandler} from "../../../js/input/inputEventHandler";
 
     export default {
+        name: 'eyetracker-input-modal',
         props: [],
         components: {Accordion, InputEventList, TestArea},
         data: function () {

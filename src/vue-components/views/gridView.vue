@@ -24,7 +24,7 @@
         <mouse-modal v-if="showModal === modalTypes.MODAL_MOUSE" @close="showModal = null; reinitInputMethods();"/>
         <scanning-modal v-if="showModal === modalTypes.MODAL_SCANNING" @close="showModal = null; reinitInputMethods();"/>
         <sequential-input-modal v-if="showModal === modalTypes.MODAL_SEQUENTIAL" @close="showModal = null; reinitInputMethods();"/>
-        <eyetracking-input-modal v-if="showModal === modalTypes.MODAL_EYETRACKING" @close="showModal = null; reinitInputMethods();"/>
+        <EyeTrackerInputModal v-if="showModal === modalTypes.MODAL_EYETRACKING" @close="showModal = null; reinitInputMethods();"/>
         <unlock-modal v-if="showModal === modalTypes.MODAL_UNLOCK" @unlock="unlock(true)" @close="showModal = null;"/>
 
         <div class="row content spaced" v-show="viewInitialized && gridData.gridElements && gridData.gridElements.length === 0 && (!globalGridData || globalGridData.length === 0)">
