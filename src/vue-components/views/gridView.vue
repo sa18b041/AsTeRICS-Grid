@@ -26,7 +26,12 @@
         <sequential-input-modal v-if="showModal === modalTypes.MODAL_SEQUENTIAL" @close="showModal = null; reinitInputMethods();"/>
         <EyeTrackerInputModal v-if="showModal === modalTypes.MODAL_EYETRACKING" @close="showModal = null; reinitInputMethods();"/>
         <unlock-modal v-if="showModal === modalTypes.MODAL_UNLOCK" @unlock="unlock(true)" @close="showModal = null;"/>
-<WebGazer @update="onUpdate" :off="false" />
+        
+<!-- <WebGazer @update="onUpdate" :off="false" /> -->
+
+ 
+<!-- <GazeCloud @update="onUpdate" />  -->
+
         <div class="row content spaced" v-show="viewInitialized && gridData.gridElements && gridData.gridElements.length === 0 && (!globalGridData || globalGridData.length === 0)">
             <div data-i18n="" style="margin-top: 2em">
                 <span>No elements, click <a :href="'#grid/edit/' + gridId">Edit grid</a> to enter edit mode.</span>
@@ -78,7 +83,8 @@
     import {imageUtil} from "../../js/util/imageUtil";
     import UnlockModal from "../modals/unlockModal.vue";
     import {printService} from "../../js/service/printService";
-    import WebGazer from "../eyetracker/WebGazer.vue"
+    import WebGazer from "../eyetracker/WebGazer.vue";
+    import GazeCloud from "../components/GazeCloud.vue";
 
     let vueApp = null;
     let gridInstance = null;
@@ -121,7 +127,7 @@
             HuffmanInputModal,
             DirectionInputModal,
             EyeTrackerInputModal,
-            MouseModal,WebGazer,
+            MouseModal,WebGazer, //GazeCloud,// CalibrationPoints, PlottingCanvas,
             ScanningModal, HeaderIcon
         },
         methods: {
@@ -160,6 +166,7 @@
                 let promise = Promise.resolve();
                 if (!dontSave) {
                     promise = dataService.saveMetadata(this.metadata);
+                   
                 }
                 promise.then(() => {
                     $(document).trigger(constants.EVENT_SIDEBAR_CLOSE);

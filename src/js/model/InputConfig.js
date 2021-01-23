@@ -36,6 +36,7 @@ class InputConfig extends Model({
     huffColorWholeElement: [Boolean],
     huffTimeout: [Number],
     huffMarkInactive: [Boolean],
+    eyetrackingInputs: [Model.Array(Object)],
     eyetrackingEnabled: [Boolean]
 }) {
     constructor(properties, elementToCopy) {
@@ -74,6 +75,10 @@ InputConfig.getNumConst = (num) => "NUM" + num;
 
 InputConfig.DEFAULT_SCAN_INPUTS = [
     new InputEventKey({label: InputConfig.SELECT, keyCode: 32, keyName: "Space", holdDuration: 400}),
+    new InputEventKey({label: InputConfig.NEXT, keyCode: 32, keyName: "Space"})
+];
+InputConfig.DEFAULT_EYETRACKER_INPUTS = [
+    new InputEventKey({label: InputConfig.SELECT, keyCode: 32, keyName: "Space", holdDuration: 500}),
     new InputEventKey({label: InputConfig.NEXT, keyCode: 32, keyName: "Space"})
 ];
 InputConfig.DEFAULT_SEQ_INPUTS = [
@@ -117,7 +122,8 @@ InputConfig.defaults({
     huffShowNumbers: true,
     huffElementCount: 0,
     huffTimeout: 4000,
-    huffMarkInactive: true
+    huffMarkInactive: true,
+    eyetrackingInputs: InputConfig.DEFAULT_EYETRACKER_INPUTS
 });
 
 export {InputConfig};

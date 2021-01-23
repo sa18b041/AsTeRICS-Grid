@@ -7,23 +7,36 @@
                     <a class="close-button" href="javascript:;" @click="openHelp()"><i class="fas fa-question-circle"></i></a>
                     <div class="modal-header">
                         <h1 name="header">
-                            Scanning vom eyetracking js
+                            Choose your Eye tracking mode
                         </h1>
-                    </div>
+                                 
+                        <form action="">
+
+  <input name="eyeTrackingMode" value="WebGazer offline" v-focus type="radio" id="enableEyetracking"  @click="inputConfig.eyetrackingEnabled">
+  <label for="webGazer">WebGazer offline Version</label><br>
+  <input type="radio" id="gazeCloud" name="eyeTrackingMode" value="Gaze cloudbased">
+  <label for="gazeCloud">Gaze Cloud online Version</label><br>
+   <label class="inline" for="enableScanning" data-i18n></label> 
+  
+  <br>  
+  <input type="submit" value="Enable Eyetracking // Augensteuerung aktivieren">
+</form>
+               
+                    
  
                     <div class="modal-body" v-if="inputConfig">
                          <div id="app">
+    <!-- <GazeCloud @update="onUpdate" />  -->
     
-                            <WebGazer @update="onUpdate" :off="false" />
+                            <!-- <WebGazer @update="onUpdate" :off="false"/> -->
+                         <!-- <PlottingCanvas />
+                            <CalibrationPoints :x="x" :y="y" /> --> 
                             
-                            <!--
-                            <PlottingCanvas />
-                            <CalibrationPoints :x="x" :y="y" />
-                            -->
 
                             <!-- <CalibrationPoint @click="getID" :id="id" />  -->
                             <!-- List  :listdata="items"--> 
                         </div>
+                    </div>
                     </div>
 
                     <div class="modal-footer">
@@ -56,15 +69,18 @@
     import {inputEventHandler} from "../../../js/input/inputEventHandler";
 
     import WebGazer from "../../eyetracker/WebGazer.vue"
-    //import PlottingCanvas from "../../eyetracker/PlottingCanvas.vue"
-    //import CalibrationPoints from "../../eyetracker/CalibrationPoints.vue"
+     import GazeCloud from "../../components/GazeCloud.vue"
+   //  import PlottingCanvas from "../../eyetracker/PlottingCanvas.vue"
+    // import CalibrationPoints from "../../eyetracker/CalibrationPoints.vue"
 
 export default {
-        name: 'eyetracker-input-modal',
+        // name: 'eyetracker-input-modal',
         props: [],
-        components: {WebGazer, Accordion, InputEventList, TestArea},
+        components: {WebGazer,  Accordion, InputEventList, TestArea, GazeCloud},
         data: function () {
             return {
+                x: 0,
+                y: 0,
                 inputConfig: null,
                 touchScanning: null,
                 metadata: null,
@@ -89,7 +105,7 @@ export default {
         methods: {
             save() {
                 if (!this.validateInputs()) {
-                    return;
+                return;
                 }
                 this.metadata.inputConfig = this.inputConfig;
                 dataService.saveMetadata(this.metadata).then(() => {
@@ -106,21 +122,22 @@ export default {
                 this.errorInputs = [];
                 this.error = "";
 
-                if (!this.inputConfig.scanEnabled) {
-                    return true;
-                }
-                if (this.inputConfig.scanInputs.filter(input => input.label === InputConfig.SELECT).length === 0) {
-                    this.errorInputs.push(InputConfig.SELECT);
-                }
-                if (this.inputConfig.scanInputs.filter(input => input.label === InputConfig.NEXT).length === 0 && !this.inputConfig.scanAuto) {
-                    this.errorInputs.push(InputConfig.NEXT);
-                }
+               // if (this.inputConfig.eyetrackingEnabled) {
 
-                if (this.errorInputs.length > 0) {
-                    this.error = i18nService.translate('Please specify input modalities // Bitte Eingabemodalitäten definieren');
-                    return false;
-                }
-                return true;
+                   return true;
+              //  }
+                // if (this.inputConfig.eyetrackingEnabled.filter(input => input.label === InputConfig.SELECT).length === 0) {
+                //     this.errorInputs.push(InputConfig.SELECT);
+                // }
+                // if (this.inputConfig.eyetrackingEnabled.filter(input => input.label === InputConfig.NEXT).length === 0 && !this.inputConfig.scanAuto) {
+                //     this.errorInputs.push(InputConfig.NEXT);
+                // }
+
+                // if (this.errorInputs.length > 0) {
+                //     this.error = i18nService.translate('Please specify input modalities // Bitte Eingabemodalitäten definieren');
+                //     return false;
+                // }
+                // return true;
             },
             inputChanged() {
                 if (this.error) {
@@ -128,7 +145,7 @@ export default {
                 }
             },
             resetInput() {
-                this.$set(this.inputConfig, 'scanInputs', JSON.parse(JSON.stringify(InputConfig.DEFAULT_SCAN_INPUTS)));
+                this.$set(this.inputConfig, 'eyetrackingInputs', JSON.parse(JSON.stringify(InputConfig.DEFAULT_SCAN_INPUTS)));
                 this.inputChanged();
             },
             changeTouchScanning() {
