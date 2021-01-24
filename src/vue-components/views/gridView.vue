@@ -139,8 +139,22 @@
             onUpdate(coord) {
                 this.x = coord.x;
                 this.y = coord.y;
-                this.docs = document.elementFromPoint(this.x, this.y); 
-                console.log("update", coord, this.docs);
+                var doc = document.elementFromPoint(this.x, this.y);
+                if (doc == null){  // if click = null  - no element to click
+                    this.docs  = null;
+                    return;
+                }
+                if ( this.docs  == doc ) {
+                    var time = Date.now();
+                    if(time - this.updateTime>500){
+                        console.log("click");
+                        doc.click();
+                    }
+                } else {
+                    this.docs = document.elementFromPoint(this.x, this.y); 
+                    this.updateTime = Date.now();   // gives the time in ms from 1970 ongoing
+                }
+                // console.log("update", coord, this.docs);
      
             },
             openModal(modalType) {
