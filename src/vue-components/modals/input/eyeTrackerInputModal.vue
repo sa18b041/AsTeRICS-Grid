@@ -28,7 +28,7 @@
                          <div id="app">
     <!-- <GazeCloud @update="onUpdate" />  -->
     
-                            <!-- <WebGazer @update="onUpdate" :off="false"/> -->
+                            <!-- <WebGazer @update="onUpdate" :off="false"/>  -->
                          <!-- <PlottingCanvas />
                             <CalibrationPoints :x="x" :y="y" /> --> 
                             

@@ -27,7 +27,8 @@
         <EyeTrackerInputModal v-if="showModal === modalTypes.MODAL_EYETRACKING" @close="showModal = null; reinitInputMethods();"/>
         <unlock-modal v-if="showModal === modalTypes.MODAL_UNLOCK" @unlock="unlock(true)" @close="showModal = null;"/>
         
-<!-- <WebGazer @update="onUpdate" :off="false" /> -->
+
+<WebGazer @update="onUpdate" :off="false" />
 
  
 <!-- <GazeCloud @update="onUpdate" />  -->
@@ -103,6 +104,10 @@
         props: ['gridId'],
         data() {
             return {
+                docs: null,
+                x: null,
+                y: null, 
+                updateTime: null,
                 gridData: {},
                 globalGridData: null,
                 metadata: null,
@@ -131,6 +136,13 @@
             ScanningModal, HeaderIcon
         },
         methods: {
+            onUpdate(coord) {
+                this.x = coord.x;
+                this.y = coord.y;
+                this.docs = document.elementFromPoint(this.x, this.y); 
+                console.log("update", coord, this.docs);
+     
+            },
             openModal(modalType) {
                 this.showModal = modalType;
                 stopInputMethods();
