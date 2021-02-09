@@ -28,7 +28,7 @@
         <unlock-modal v-if="showModal === modalTypes.MODAL_UNLOCK" @unlock="unlock(true)" @close="showModal = null;"/>
         
 
-<WebGazer @update="onUpdate" :off="false" />
+<!-- <WebGazer @update="onUpdate" :off="false" /> -->
 
  
 <!-- <GazeCloud @update="onUpdate" />  -->
@@ -132,7 +132,7 @@
             HuffmanInputModal,
             DirectionInputModal,
             EyeTrackerInputModal,
-            MouseModal,WebGazer, //GazeCloud,// CalibrationPoints, PlottingCanvas,
+            MouseModal,WebGazer,  //GazeCloud,// CalibrationPoints, PlottingCanvas,
             ScanningModal, HeaderIcon
         },
         methods: {
@@ -151,7 +151,7 @@
                         doc.click();
                     }
                 } else {
-                    this.docs = document.elementFromPoint(this.x, this.y); 
+                    this.docs = document.elementFromPoint(this.x, this.y);  
                     this.updateTime = Date.now();   // gives the time in ms from 1970 ongoing
                 }
                 // console.log("update", coord, this.docs);

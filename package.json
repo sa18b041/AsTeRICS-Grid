@@ -15,6 +15,7 @@
     "n-ary-huffman": "^4.0.0",
     "navigo": "^7.1.2",
     "predictionary": "^1.4.3",
+    "stylus": "^0.54.8",
     "superlogin-client": "^0.8.0",
     "vue": "^2.5.17",
     "webgazer": "^2.0.1"

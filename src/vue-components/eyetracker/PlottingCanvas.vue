@@ -50,8 +50,10 @@ export default {
 
 </script>
 
-<style lang="stylus" scoped>
-  plotting-canvas
-  cursor crosshair
-  position fixed
+<style scoped>
+  #plotting-canvas {
+    cursor: crosshair;
+    position: fixed;
+  }
+    
 </style>

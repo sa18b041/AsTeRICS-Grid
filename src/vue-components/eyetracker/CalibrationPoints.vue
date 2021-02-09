@@ -85,7 +85,7 @@ export default {
 </script>
 <!--scoped means that the style is only on this component file! better to put a class on it
 // to style CSS -->
-<style lang="stylus" scoped>
+<style scoped>
 h2 {
   text-align: center;
   color: red;

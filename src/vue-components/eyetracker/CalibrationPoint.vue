@@ -128,16 +128,17 @@ export default {
 };
 </script>
 
-<style lang="stylus" scoped>
+<style scoped>
 input {
-  border-radius 25px
-  opacity 0.5
-  border-color black
-  border-style solid
-  position fixed
-  cursor pointer
-  &.hover {
-    outline 1rem solid blue;
-  }
+  border-radius: 25px;
+  opacity: 0.5;
+  border-color: black;
+  border-style: solid;
+  position: fixed;
+  cursor: pointer;
+  
 }
+input:hover {
+    outline: 1rem solid blue;
+  }
 </style>
