@@ -7,6 +7,7 @@
           @keydown.27="cancel()"
           @keydown.enter="save()"
         >
+        <WebGazer @update="onUpdate" :off="false" />
           <a
             class="inline close-button"
             href="javascript:void(0);"
@@ -18,26 +19,6 @@
           ></a>
           <div class="modal-header">
               
-            <div class="modal-body" v-if="webGazerOn == false">
-              <!--<div id="app">-->
-              <!-- <GazeCloud @update="onUpdate" />  -->
-
-              <WebGazer @update="onUpdate" :off="false" />
-              <!-- <PlottingCanvas />
-                <CalibrationPoints :x="x" :y="y" /> -->
-
-              <h1>open webgazer</h1>
-            </div>
-            <div class="modal-body" v-else>
-              <!--<div id="app">-->
-              <!-- <GazeCloud @update="onUpdate" />  -->
-
-              <WebGazer @update="onUpdate" :off="true" />
-              <!-- <PlottingCanvas />
-                <CalibrationPoints :x="x" :y="y" /> -->
-
-              <h1>open webgazer</h1>
-            </div>
             <h1 name="header">Choose your Eye tracking mode</h1>
 
             
@@ -45,10 +26,8 @@
                 name="eyeTrackingMode"
                 value="WebGazer"
                 v-model = "test"
-                v-focus
                 type="radio"
                 id="enableEyetracking"
-                
               />
               <label for="webGazer">WebGazer offline Version</label><br />
               <input
@@ -74,13 +53,15 @@
 
           <div class="modal-footer">
             <div class="button-container row">
-              <button @click="cancel()" class="four columns offset-by-four">
+              <button @click="delete1()" class="four columns offset-by-four">
                 <i class="fas fa-times" />
                 <span data-i18n>Cancel // Abbrechen</span>
               </button>
-              <button @click="testGazerOn()" class="four columns">
+              <button @click="webGazerOn=false" class="four columns"> 
                 <i class="fas fa-check" /> <span>OK</span>
               </button>
+              
+              <!-- <div v-if="webGazerOn==false"><WebGazer @update="onUpdate" :off="false" /></div> -->
             </div>
           </div>
         </div>
@@ -104,6 +85,7 @@ import { inputEventHandler } from "../../../js/input/inputEventHandler";
 
 import WebGazer from "../../eyetracker/WebGazer.vue";
 import GazeCloud from "../../components/GazeCloud.vue";
+import webgazer from "webgazer";
 //import PlottingCanvas from "../../eyetracker/PlottingCanvas.vue"
 //import CalibrationPoints from "../../eyetracker/CalibrationPoints.vue"
 
@@ -113,8 +95,10 @@ export default {
   components: { WebGazer, Accordion, InputEventList, TestArea, GazeCloud },
   data: function () {
     return {
-      x: 0,
-      y: 0,
+      docs: null,
+      updateTime: null,
+      x: null,
+      y: null,
       inputConfig: true,
       touchScanning: null,
       metadata: null,
@@ -139,23 +123,68 @@ export default {
     },
   },
   methods: {
-    testGazerOn(){
-    if (this.test == "WebGazer"){
-        this.webGazerOn = false;
-        console.log(this.webGazerOn);
-
-    } else {
-        console.log("dummy");
-    }
-    },
+    // async testGazerOn(){
+    //  let dataArr = []
+    // if (window && this.webGazerOn && this.test == "WebGazer") {
+    //   const thiz = this;
+    //   window.applyCalmanFilter = true;
+    //   window.saveDataAccrossSessions = true; // remembers the calibration points for the next session
+    //   webgazer.params.showVideoPreview = true; // set to false than the video will not be opened
+    //   await webgazer
+    //     .setRegression("ridge")
+    //     .setGazeListener(function(data, time) {  // it is an given event - where a callback function is called : here the data will be übergeben - where the user looks x/y values
+    //       if (data) {
+    //         thiz.x = data.x;
+    //         thiz.y = data.y;
+    //          let dataCoord = {
+    //             x: data.x,
+    //             y: data.y
+    //         }
+    //         dataArr.push(dataCoord)
+    //         //console.log('This Array');
+    //        // console.log(dataArr)
+    //        //thiz.$emit("update", { x: data.x, y: data.y });  //update event 
+           
+    //       }
+    //     })
+    //     .begin();
+    //   webgazer.showPredictionPoints(true);
+    //   this.onUpdate({ x: this.x, y: this.y })
+    //   this.webGazerOn = false;
+    // } else {
+    //     this.webgazer.resume();
+    // }
+    // },
     onUpdate(coord) {
-      this.x = coord.x;
-      this.y = coord.y;
-      // console.log("###########################")
-      // console.log("X :"+this.x)
-      // console.log("Y :"+this.y)
-      
+                this.x = coord.x;
+                this.y = coord.y;
+                var doc = document.elementFromPoint(this.x, this.y);
+                if (doc == null){  // if click = null  - no element to click
+                    this.docs  = null;
+                    return;
+                }
+                if (doc == !null ) {
+                    var time = Date.now();
+                    if(time - this.updateTime>100){
+                        console.log("click");
+                        doc.click();
+                    }
+                } else {
+                    this.docs = document.elementFromPoint(this.x, this.y);  
+                    this.updateTime = Date.now();   // gives the time in ms from 1970 ongoing
+                }
+                // console.log("update", coord, this.docs);
+     
+            },
+    delete1(){
+        webgazer.end();
+        webgazer.showPredictionPoints(false);
+        this.$emit("close");
     },
+    cancel() {
+                this.$emit('close');
+            },
+    
     save() {
       if (!this.validateInputs()) {
         return;
@@ -164,11 +193,6 @@ export default {
       dataService.saveMetadata(this.metadata).then(() => {
         this.$emit("close");
       });
-    },
-    cancel() {
-        this.webGazerOn = true;
-      this.$emit("close");
-      
     },
     openHelp() {
       helpService.openHelp();

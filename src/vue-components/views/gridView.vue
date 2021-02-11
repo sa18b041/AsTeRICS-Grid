@@ -28,7 +28,7 @@
         <unlock-modal v-if="showModal === modalTypes.MODAL_UNLOCK" @unlock="unlock(true)" @close="showModal = null;"/>
         
 
-<!-- <WebGazer @update="onUpdate" :off="false" /> -->
+ <!-- <WebGazer @update="onUpdate" :off="false" />  -->
 
  
 <!-- <GazeCloud @update="onUpdate" />  -->
@@ -146,7 +146,7 @@
                 }
                 if ( this.docs  == doc ) {
                     var time = Date.now();
-                    if(time - this.updateTime>500){
+                    if(time - this.updateTime>200){
                         console.log("click");
                         doc.click();
                     }
