@@ -11,6 +11,7 @@ import {helpService} from "../service/helpService";
 import {Router} from "../router";
 import NotificationBar from "../../vue-components/components/notificationBar.vue"
 import ProgressBarModal from "../../vue-components/modals/progressBarModal.vue"
+import store from "../../store/store.js"
 
 let MainVue = {};
 let app = null;
@@ -64,6 +65,7 @@ MainVue.showProgressBar = function (percentage, options) {
 MainVue.init = function () {
     app = new Vue({
         el: '#app',
+        store,
         components: {NotificationBar, ProgressBarModal},
         data() {
             return {

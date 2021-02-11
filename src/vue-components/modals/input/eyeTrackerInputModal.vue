@@ -7,7 +7,7 @@
           @keydown.27="cancel()"
           @keydown.enter="save()"
         >
-        <WebGazer @update="onUpdate" :off="false" />
+        
           <a
             class="inline close-button"
             href="javascript:void(0);"
@@ -57,7 +57,7 @@
                 <i class="fas fa-times" />
                 <span data-i18n>Cancel // Abbrechen</span>
               </button>
-              <button @click="webGazerOn=false" class="four columns"> 
+              <button @click="$store.state.activateWebGazer=true" class="four columns"> 
                 <i class="fas fa-check" /> <span>OK</span>
               </button>
               
@@ -88,6 +88,7 @@ import GazeCloud from "../../components/GazeCloud.vue";
 import webgazer from "webgazer";
 //import PlottingCanvas from "../../eyetracker/PlottingCanvas.vue"
 //import CalibrationPoints from "../../eyetracker/CalibrationPoints.vue"
+import store from "../../../store/store.js";
 
 export default {
   // name: 'eyetracker-input-modal',

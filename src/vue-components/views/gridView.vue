@@ -28,7 +28,7 @@
         <unlock-modal v-if="showModal === modalTypes.MODAL_UNLOCK" @unlock="unlock(true)" @close="showModal = null;"/>
         
 
- <!-- <WebGazer @update="onUpdate" :off="false" />  -->
+ <WebGazer v-if="$store.state.activateWebGazer" @update="onUpdate" :off="false" />
 
  
 <!-- <GazeCloud @update="onUpdate" />  -->
@@ -86,6 +86,7 @@
     import {printService} from "../../js/service/printService";
     import WebGazer from "../eyetracker/WebGazer.vue";
     import GazeCloud from "../components/GazeCloud.vue";
+    import store from "../../store/store.js";
 
     let vueApp = null;
     let gridInstance = null;
