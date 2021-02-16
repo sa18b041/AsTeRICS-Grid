@@ -105,9 +105,10 @@
         props: ['gridId'],
         data() {
             return {
-                docs: null,
                 x: null,
-                y: null, 
+                y: null,
+                focusedElementPrevious: null,
+                focusedElements: [],
                 updateTime: null,
                 gridData: {},
                 globalGridData: null,
@@ -140,23 +141,49 @@
             onUpdate(coord) {
                 this.x = coord.x;
                 this.y = coord.y;
-                var doc = document.elementFromPoint(this.x, this.y);
-                if (doc == null){  // if click = null  - no element to click
-                    this.docs  = null;
+                const timestamp = Date.now();
+                const focusedElement = document.elementFromPoint(this.x, this.y);
+
+                // console.log("DEBUG", "WebGazer Update")
+
+                if (focusedElement == null) {
+                    this.focusedElementPrevious  = null;
                     return;
                 }
-                if ( this.docs  == doc ) {
-                    var time = Date.now();
-                    if(time - this.updateTime>200){
-                        console.log("click");
-                        doc.click();
-                    }
+
+                if (this.focusedElementPrevious != focusedElement ) {
+                    // console.log("DEBUG", "Focused element not the same");
+                    this.focusedElementPrevious = focusedElement;
                 } else {
-                    this.docs = document.elementFromPoint(this.x, this.y);  
-                    this.updateTime = Date.now();   // gives the time in ms from 1970 ongoing
-                }
-                // console.log("update", coord, this.docs);
-     
+                    const elementExists = typeof this.focusedElements.find(({ref}) => ref === focusedElement) !== "undefined";
+                    // console.log("DEBUG", "Focused element the same", elementExists, this.focusedElements)
+
+                    if (!elementExists) {
+                        this.focusedElements.push({
+                            ref: focusedElement,
+                            counter: 0,
+                            timestamp
+                        })
+                    } else {
+                        const element = this.focusedElements.find(({ref}) => ref === focusedElement);
+                        if (timestamp - element.timestamp > 30) {
+                            element.timestamp = timestamp;
+                            element.counter++;
+
+                            element.ref.classList.add(`click-duration-${element.counter}`)
+                            element.ref.focus();
+
+                            if (element.counter > 5) {
+                                // Click
+                                console.log("DEBUG", "Extension: Click")
+                                this.focusedElements.forEach(el => {
+                                    el.counter = 0;
+                                    // el.ref.classList.remove()/delete() - Lookup DOM API documentation on MDN
+                                })
+                            }
+                        }
+                    }
+                }     
             },
             openModal(modalType) {
                 this.showModal = modalType;
@@ -571,4 +598,24 @@
 </script>
 
 <style scoped>
+</style>
+
+<style>
+
+.click-duration-1 {
+    background-color: #999999;
+}
+.click-duration-2 {
+    background-color: #777777;
+}
+.click-duration-3 {
+    background-color: #555555;
+}
+.click-duration-4 {
+    background-color: #333333;
+}
+.click-duration-5 {
+    background-color: #111111;
+}
+
 </style>

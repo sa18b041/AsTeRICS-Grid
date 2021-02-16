@@ -29,17 +29,20 @@
                 type="radio"
                 id="enableEyetracking"
               />
-              <label for="webGazer">WebGazer offline Version</label><br />
-              <input
-                type="radio"
+              <label for="webGazer" style="font-size: 20px" >WebGazer offline Version</label><br />
+
+              <input style="font-size: 20px"
+                v-model="test" type="radio"
                 id="gazeCloud"
                 name="eyeTrackingMode"
                 value="Gaze cloudbased"
-              />
-              <label for="gazeCloud">Gaze Cloud online Version</label><br />
+                
+              /> 
+              <label for="gazeCloud" style="font-size: 20px">Gaze Cloud online Version</label><br />
               <label class="inline" for="enableScanning" data-i18n></label>
 
               <br />
+              <span > status =  {{test}}</span>
               <!-- <input type="submit" value="Enable Eyetracking // Augensteuerung aktivieren"> -->
             
 
@@ -185,7 +188,9 @@ export default {
     cancel() {
                 this.$emit('close');
             },
-    
+    startCalibration() {
+        alert("Please click 10 times on the red button when the camera has started")
+    },
     save() {
       if (!this.validateInputs()) {
         return;
