@@ -64,7 +64,7 @@
                 <i class="fas fa-check" /> <span>OK</span>
               </button>
               
-              <!-- <div v-if="webGazerOn==false"><WebGazer @update="onUpdate" :off="false" /></div> -->
+            <!-- <div v-if="webGazerOn==false"><WebGazer @update="onUpdate" :off="false" /></div> -->
             </div>
           </div>
         </div>
@@ -182,7 +182,7 @@ export default {
             },
     delete1(){
         webgazer.end();
-        webgazer.showPredictionPoints(false);
+        webgazer.showPredictionPoints(true);
         this.$emit("close");
     },
     cancel() {

@@ -142,9 +142,14 @@
                 this.x = coord.x;
                 this.y = coord.y;
                 const timestamp = Date.now();
-                const focusedElement = document.elementFromPoint(this.x, this.y);
+                var focusedElement = $(document.elementFromPoint(this.x, this.y));
+                 if (focusedElement == null) {
+                    this.focusedElementPrevious  = null;
+                    return;
+                }
+                focusedElement = $(focusedElement.parents(".grid-item-content"));
 
-                // console.log("DEBUG", "WebGazer Update")
+                console.log("element", focusedElement); 
 
                 if (focusedElement == null) {
                     this.focusedElementPrevious  = null;
