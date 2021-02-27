@@ -7,7 +7,6 @@
           @keydown.27="cancel()"
           @keydown.enter="save()"
         >
-        
           <a
             class="inline close-button"
             href="javascript:void(0);"
@@ -18,33 +17,38 @@
             ><i class="fas fa-question-circle"></i
           ></a>
           <div class="modal-header">
-              
-            <h1 name="header">Choose your Eye tracking mode</h1>
-
+            <h1 name="header" class="modalHeader">Choose your Eye tracking mode</h1>
             
-              <input
-                name="eyeTrackingMode"
-                value="WebGazer"
-                v-model = "test"
-                type="radio"
-                id="enableEyetracking"
-              />
-              <label for="webGazer" style="font-size: 20px" >WebGazer offline Version</label><br />
 
-              <input style="font-size: 20px"
-                v-model="test" type="radio"
-                id="gazeCloud"
-                name="eyeTrackingMode"
-                value="Gaze cloudbased"
-                
-              /> 
-              <label for="gazeCloud" style="font-size: 20px">Gaze Cloud online Version</label><br />
-              <label class="inline" for="enableScanning" data-i18n></label>
-
-              <br />
-              <span > status =  {{test}}</span>
-              <!-- <input type="submit" value="Enable Eyetracking // Augensteuerung aktivieren"> -->
+            <input
+              name="eyeTrackingMode"
+              value="WebGazer"
+              v-model="test"
+              type="radio"
+              id="enableEyetracking"
+            />
+            <label class="RadioSelection" 
+              >WebGazer offline Version</label
+            ><br />
             
+
+            <input
+              style="font-size: 20px"
+              v-model="test"
+              type="radio"
+              id="gazeCloud"
+              name="eyeTrackingMode"
+              value="Gaze cloudbased"
+            />
+            <label class="radioSelection" style="font-size: 20px"
+              >Gaze Cloud online Version</label
+            ><br />
+            <label class="inline" for="enableEyetracking" data-i18n></label>
+            <label class="inline" for="enableGazeCloud" data-i18n></label>
+
+            <br />
+            <span> status = {{ test }} </span>
+            <!-- <input type="submit" value="Enable Eyetracking // Augensteuerung aktivieren"> -->
 
             <!-- <PlottingCanvas />
                             <CalibrationPoints :x="x" :y="y" /> -->
@@ -60,11 +64,14 @@
                 <i class="fas fa-times" />
                 <span data-i18n>Cancel // Abbrechen</span>
               </button>
-              <button @click="$store.state.activateWebGazer=true" class="four columns"> 
+              <button
+                @click="$store.state.activateWebGazer = true"
+                class="four columns"
+              >
                 <i class="fas fa-check" /> <span>OK</span>
               </button>
-              
-            <!-- <div v-if="webGazerOn==false"><WebGazer @update="onUpdate" :off="false" /></div> -->
+              <!-- <WebGazer v-if="$store.state.activateWebGazer" @update="onUpdate" :off="false" /> -->
+              <!-- <div v-if="webGazerOn==false"><WebGazer @update="onUpdate" :off="false" /></div> -->
             </div>
           </div>
         </div>
@@ -113,7 +120,7 @@ export default {
       testOpen: false,
       selectedTestElement: null,
       test: "",
-      webGazerOn: true
+      webGazerOn: true,
     };
   },
   watch: {
@@ -147,8 +154,8 @@ export default {
     //         dataArr.push(dataCoord)
     //         //console.log('This Array');
     //        // console.log(dataArr)
-    //        //thiz.$emit("update", { x: data.x, y: data.y });  //update event 
-           
+    //        //thiz.$emit("update", { x: data.x, y: data.y });  //update event
+
     //       }
     //     })
     //     .begin();
@@ -160,36 +167,39 @@ export default {
     // }
     // },
     onUpdate(coord) {
-                this.x = coord.x;
-                this.y = coord.y;
-                var doc = document.elementFromPoint(this.x, this.y);
-                if (doc == null){  // if click = null  - no element to click
-                    this.docs  = null;
-                    return;
-                }
-                if (doc == !null ) {
-                    var time = Date.now();
-                    if(time - this.updateTime>100){
-                        console.log("click");
-                        doc.click();
-                    }
-                } else {
-                    this.docs = document.elementFromPoint(this.x, this.y);  
-                    this.updateTime = Date.now();   // gives the time in ms from 1970 ongoing
-                }
-                // console.log("update", coord, this.docs);
-     
-            },
-    delete1(){
-        webgazer.end();
-        webgazer.showPredictionPoints(true);
-        this.$emit("close");
+      this.x = coord.x;
+      this.y = coord.y;
+      var doc = document.elementFromPoint(this.x, this.y);
+      if (doc == null) {
+        // if click = null  - no element to click
+        this.docs = null;
+        return;
+      }
+      if (doc == !null) {
+        var time = Date.now();
+        if (time - this.updateTime > 100) {
+          console.log("click");
+          doc.click();
+        }
+      } else {
+        this.docs = document.elementFromPoint(this.x, this.y);
+        this.updateTime = Date.now(); // gives the time in ms from 1970 ongoing
+      }
+      // console.log("update", coord, this.docs);
+    },
+    delete1() {
+      webgazer.end();
+      webgazer.showPredictionPoints(true);
+      this.$emit("close");
     },
     cancel() {
-                this.$emit('close');
-            },
+      this.$emit("close");
+      
+    },
     startCalibration() {
-        alert("Please click 10 times on the red button when the camera has started")
+      alert(
+        "Please click 10 times on the red button when the camera has started"
+      );
     },
     save() {
       if (!this.validateInputs()) {
@@ -290,5 +300,27 @@ export default {
 
 .slidergroup input {
   width: 50%;
+}
+
+.radioSelection {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+.modalHeader {
+  color:rgb(255, 168, 127);
+  text-align: center;
 }
 </style>

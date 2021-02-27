@@ -5,7 +5,10 @@
             <div class="btn-group left">
                 <button tabindex="30" v-show="!metadata.locked" @click="toEditGrid()" class="spaced small"><i class="fas fa-pencil-alt"/> <span class="hide-mobile" data-i18n>Editing on // Bearbeiten ein</span></button>
                 <button tabindex="31" id="inputConfigButton" v-show="!metadata.locked" class="small"><i class="fas fa-cog"></i> <span class="hide-mobile" data-i18n>Input options // Eingabeoptionen</span></button>
+                
+            
             </div>
+            
             <button tabindex="34" v-show="metadata.locked" @click="unlock()" class="small">
                 <i class="fas fa-unlock"></i>
                 <span class="hide-mobile" data-i18n>Unlock // Entsperren</span>
@@ -16,7 +19,15 @@
                 <span class="hide-mobile" data-i18n>Lock // Sperren</span>
             </button>
             <button tabindex="32" @click="applyFullscreen()" class="spaced small"><i class="fas fa-expand"/> <span class="hide-mobile" data-i18n>Fullscreen // Vollbild</span></button>
+            <button id="eyeTrackerOnOff"
+                 @click="$store.state.activateWebGazer = true" class="small"> 
+                 <i class="fas fa-eye"></i>
+                 <span class="eye-tracker">ON</span></button>
+                 <!-- <VueToggles @click="value = !value" :value="value" /> -->
 
+                 
+                 
+                 
         </header>
 
         <huffman-input-modal v-if="showModal === modalTypes.MODAL_HUFFMAN" @close="showModal = null; reinitInputMethods();"/>
@@ -87,6 +98,7 @@
     import WebGazer from "../eyetracker/WebGazer.vue";
     import GazeCloud from "../components/GazeCloud.vue";
     import store from "../../store/store.js";
+    // import VueToggles from 'vue-toggles';
 
     let vueApp = null;
     let gridInstance = null;
@@ -125,7 +137,9 @@
                 modalTypes: modalTypes,
                 viewInitialized: false,
                 unlockCount: UNLOCK_COUNT,
-                unlockCounter: UNLOCK_COUNT
+                unlockCounter: UNLOCK_COUNT,
+                // value: null,
+                isToggled: false
             }
         },
         components: {
@@ -134,7 +148,7 @@
             HuffmanInputModal,
             DirectionInputModal,
             EyeTrackerInputModal,
-            MouseModal,WebGazer,  //GazeCloud,// CalibrationPoints, PlottingCanvas,
+            MouseModal,WebGazer, //VueToggles, //GazeCloud,// CalibrationPoints, PlottingCanvas,
             ScanningModal, HeaderIcon
         },
         methods: {
