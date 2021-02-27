@@ -19,13 +19,23 @@
                 <span class="hide-mobile" data-i18n>Lock // Sperren</span>
             </button>
             <button tabindex="32" @click="applyFullscreen()" class="spaced small"><i class="fas fa-expand"/> <span class="hide-mobile" data-i18n>Fullscreen // Vollbild</span></button>
+        
             <button id="eyeTrackerOnOff"
-                 @click="$store.state.activateWebGazer = true" class="small"> 
+                 @click="value =$store.state.activateWebGazer = true" class="small"> 
                  <i class="fas fa-eye"></i>
                  <span class="eye-tracker">ON</span></button>
-                 <!-- <VueToggles @click="value = !value" :value="value" /> -->
+            
+            <button id="OnOff"
+                 @click="showMe = !showMe" class="small"> 
+                 <i class="fas fa-eye"></i>
+                 <span class="eye-tracker">ON to toggle</span></button>  
+                 <transition name ="fade">
+                     <p class="" v-if="showMe">Eyetracker is now switched off</p>
 
-                 
+                     
+                 </transition>
+                    
+               
                  
                  
         </header>
@@ -98,7 +108,7 @@
     import WebGazer from "../eyetracker/WebGazer.vue";
     import GazeCloud from "../components/GazeCloud.vue";
     import store from "../../store/store.js";
-    // import VueToggles from 'vue-toggles';
+    
 
     let vueApp = null;
     let gridInstance = null;
@@ -139,7 +149,7 @@
                 unlockCount: UNLOCK_COUNT,
                 unlockCounter: UNLOCK_COUNT,
                 // value: null,
-                isToggled: false
+                showMe: true,
             }
         },
         components: {

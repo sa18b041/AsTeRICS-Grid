@@ -21,7 +21,7 @@
             
 
             <input
-              name="eyeTrackingMode"
+              name="eyeTrackingMode"    
               value="WebGazer"
               v-model="test"
               type="radio"
@@ -33,14 +33,14 @@
             
 
             <input
-              style="font-size: 20px"
+              
               v-model="test"
               type="radio"
               id="gazeCloud"
               name="eyeTrackingMode"
               value="Gaze cloudbased"
             />
-            <label class="radioSelection" style="font-size: 20px"
+            <label class="RadioSelection" 
               >Gaze Cloud online Version</label
             ><br />
             <label class="inline" for="enableEyetracking" data-i18n></label>
