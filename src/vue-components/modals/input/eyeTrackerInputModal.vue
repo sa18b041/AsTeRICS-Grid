@@ -16,14 +16,17 @@
           <a class="close-button" href="javascript:;" @click="openHelp()"
             ><i class="fas fa-question-circle"></i
           ></a>
+           
           <div class="modal-header">
             <h1 name="header" class="modalHeader">Choose your Eye tracking mode</h1>
+            
             
 
             <input
               name="eyeTrackingMode"    
               value="WebGazer"
               v-model="test"
+              @click="showSettings()"
               type="radio"
               id="enableEyetracking"
             />
@@ -47,7 +50,61 @@
             <label class="inline" for="enableGazeCloud" data-i18n></label>
 
             <br />
-            <span> status = {{ test }} </span>
+            <!-- <span> status = {{ test }} </span> -->
+
+             
+          <div v-if="show" class="row">
+            <h1 name="header" class="modalHeader">Select your clicking settings</h1>
+            <br>
+            <button @click="showPopUp = true" class="buttonPopUp">Enter Intervall(ms)</button><br>
+             <label class="three columns" for="intervall">Intervalls(ms)</label>
+             <input  min="0" step="500" class="six columns" type="number" placeholder="multiply of 500" v-model="intervall">
+              <transition name="fade" appear>
+              <div class="modal-overlay-PopUp" v-if="showPopUp" @click="showPopUp = false"></div>
+              </transition>
+                <transition name="slide" appear>
+                  <div class="popUp" v-if="showPopUp">
+                    <h1>Heading of the pop Up</h1>
+                    <p>text of the description of the settings for the clicking algorithm</p>
+                    <button class="buttonPopUp" @click="showPopUp = false">Close</button>
+                  </div>
+               </transition>        
+              <br>                      
+            
+            <br>        
+            <button @click="showPopUp = true" class="buttonPopUp">Enter total counts</button> <br>
+            <label class="three columns" for="counterSteps">Total counts</label>
+            <input min="0" step="5" placeholder="multiply of 5" class="six columns" type="number" v-model="counterSum">
+            <transition name="fade" appear>
+              <div class="modal-overlay-PopUp" v-if="showPopUp" @click="showPopUp = false"></div>
+            </transition>
+            <transition name="slide" appear>
+              <div class="popUp" v-if="showPopUp">
+                <h1>Total sum of counts to click</h1>
+                <p>Here you need to select the number of counts to be on the item that the selected grid item is clicked</p>
+                <button class="buttonPopUp" @click="showPopUp = false">Close</button>
+                   </div>
+               </transition>  <br>
+            
+            <br>
+            <button @click="showPopUp = true" class="buttonPopUp">Enter duration(ms)</button><br>
+            <label class="three columns" for="timeDuration">Duration(ms)</label>
+            <input min="0" step="500" placeholder="multiply of 500" class="six columns" type="number" v-model="duration">
+            <transition name="fade" appear>
+              <div class="modal-overlay-PopUp" v-if="showPopUp" @click="showPopUp = false"></div>
+            </transition>
+            <transition name="slide" appear>
+              <div class="popUp" v-if="showPopUp">
+                <h1>Duration on the grid element</h1>
+                <p>it depends how long the user should be on the grid element before it is finally clicked</p>
+                <button class="buttonPopUp" @click="showPopUp = false">Close</button>
+                   </div>
+               </transition>  
+            
+            <br><br>
+           
+            
+          </div>
             <!-- <input type="submit" value="Enable Eyetracking // Augensteuerung aktivieren"> -->
 
             <!-- <PlottingCanvas />
@@ -110,6 +167,10 @@ export default {
       updateTime: null,
       x: null,
       y: null,
+      intervall: null,
+      counterSum: null,
+      duration: null,
+      show: false,
       inputConfig: true,
       touchScanning: null,
       metadata: null,
@@ -121,6 +182,7 @@ export default {
       selectedTestElement: null,
       test: "",
       webGazerOn: true,
+      showPopUp: false,
     };
   },
   watch: {
@@ -134,6 +196,10 @@ export default {
     },
   },
   methods: {
+    showSettings() {
+console.log("test");
+this.show = true;
+    },
     // async testGazerOn(){
     //  let dataArr = []
     // if (window && this.webGazerOn && this.test == "WebGazer") {
@@ -246,9 +312,7 @@ export default {
       );
       this.inputChanged();
     },
-    changeTouchScanning() {
-      this.inputConfig.mouseclickEnabled = !this.touchScanning;
-    },
+ 
     initTest() {
       setTimeout(() => {
         this.stopTest();
@@ -323,4 +387,54 @@ export default {
   color:rgb(255, 168, 127);
   text-align: center;
 }
+
+.buttonPopUp {
+  appearance: none;
+  border: none;
+  outline: none;
+  background: none;
+  cursor: pointer;
+  display: inline-block;
+  padding: 15px 25px;
+  background-image: linear-gradient(to right, #CC2E5E, #FF5858);
+  color: #FFF;
+  font-size: 18px;
+  font-weight: 700;
+  box-shadow: 2px 3px rgba(0, 0, 0, 0.4);
+  transition: 0.4s ease-out;
+}
+  .buttonPopUp:hover{
+      box-shadow: 6px 6px rgba(0, 0, 0, 0.6);
+  }
+
+.modal-overlay-PopUp{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 98;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+div.popUp {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99;
+  width: 100%;
+  max-width: 400px;
+  background-color: #FFF;
+  border-radius: 16px;
+  padding: 25px;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to {
+  transition: opacity 0; 
+}
+
 </style>
