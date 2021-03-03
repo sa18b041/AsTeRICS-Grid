@@ -237,7 +237,7 @@ let vueConfig = {
       unlockCount: UNLOCK_COUNT,
       unlockCounter: UNLOCK_COUNT,
       // value: null,
-      showMe: true,
+      showMe: false,
       dwellingCounter: null,
     };
   },
@@ -263,17 +263,19 @@ let vueConfig = {
           this.focusedElementPrevious  = null;
           return;
       }
+      
       // focusedElement = $(focusedElement.parents(".grid-item-content"));
       //   console.log(focusedElement.parentElement.parentElement);
 
       let container = document.getElementById("grid-container");
       let list = container.children[0];
       let lists = list.children;
-
+     
       // Array.from(lists)
       let listArray = Array.from(lists);
       let containItems = listArray.filter((e) => e.classList.contains("item"));
       //   console.log('item' , containItems[0]);
+    //   console.log(containItems); // here all 9 elements are lsited
 
       // if (containItems[0] === focusedElement.parentElement.parentElement) {
       //     this.dwellingCounter++;
@@ -284,49 +286,63 @@ let vueConfig = {
       //       console.log('#')
       //   });
 
-      if (focusedElement.parentElement.parentElement == null) {
-        this.focusedElementPrevious = null;
+      if (focusedElement == null || !containItems.includes(focusedElement)) {
+  //      this.focusedElementPrevious = null;
         return;
       }
 
-      if (
-        this.focusedElementPrevious !=
-        focusedElement.parentElement.parentElement
-      ) {
-        console.log("DEBUG", "Focused element not the same");
-        this.focusedElementPrevious =
-          focusedElement.parentElement.parentElement;
-      } else {
-        const elementExists =
-          typeof this.focusedElements.find(
-            ({ ref }) => ref === focusedElement.parentElement.parentElement
-          ) !== "undefined";
-         console.log("DEBUG", "Focused element the same", elementExists, this.focusedElements)
+      if (this.focusedElementPrevious != focusedElement)
+       {
+        console.log("DEBUG", "Focused element not the same", focusedElement, this.focusedElementPrevious);
 
+        
+        if (this.focusedElementPrevious !== null && timestamp - this.focusedElementPrevious.timestamp > 2000){
+          this.focusedElementPrevious.counter = 0;
+        }else if (this.focusedElementPrevious !== null && timestamp - this.focusedElementPrevious.timestamp > 500)
+        {
+          if(this.focusedElementPrevious.counter >= 1 )
+          this.focusedElementPrevious.counter--;
+        }else
+        {
+          focusedElement.timestamp = timestamp;
+          focusedElement.counter = 0;
+          this.focusedElementPrevious = focusedElement;
+        }
+}
+       else 
+       {
+        const elementExists = typeof this.focusedElements.find(({ ref }) => ref === focusedElement) !== "undefined";
+
+// if(this.focusedElements.find(({ref}) => ref === focusedElement))
+// {
+//   elementExists= true;
+// }
+// else{
+//   elementExists = false;
+// }
+
+        // if focused element is within the list of focusedElements - than element exists and =true! otherwise the 
+        //element is not defined - the focusedElement was not found then the find method returns undefined!
+        console.log("DEBUG", "Focused element the same", elementExists, this.focusedElements)
+
+//        if (elementExists === false) {
         if (!elementExists) {
           this.focusedElements.push({
-            ref: focusedElement.parentElement.parentElement,
+            ref: focusedElement,
             counter: 0,
             timestamp,
           });
         } else {
           const element = this.focusedElements.find(
-            ({ ref }) => ref === focusedElement.parentElement.parentElement
+            ({ ref }) => ref === focusedElement
           );
 
-        containItems.forEach(liItem => {
-            // console.log(liItem.getAttribute('data-label'));
-        if (liItem === element.ref) {
-            this.dwellingCounter++;
-            console.log('item1'+this.dwellingCounter);
-            
-            liItem.addEventListener("click", e => {
-                console.log(liItem.getAttribute('data-label'))
-              
-                
-            })
-          }
-        });
+        // containItems.forEach(liItem => {
+        //     // console.log(liItem.getAttribute('data-label'));
+        // if (liItem === element.ref) {
+        //     this.dwellingCounter++;
+        //    }
+        // });
 
           if (timestamp - element.timestamp > 30) {
             element.timestamp = timestamp;
@@ -337,15 +353,16 @@ let vueConfig = {
 
             if (element.counter > 5) {
               // Click
-            //   element.ref.click();
+             element.ref.click();
             //   console.log("click")
              
            
-              //   console.log("DEBUG", "Extension: Click");
+              console.log("DEBUG", "Extension: Click");
               this.focusedElements.forEach((el) => {
-                el.counter = 0;
-                // el.ref.classList.remove()/delete() - Lookup DOM API documentation on MDN
+               el.counter = 0;
+                el.ref.classList.remove(); //delete() - Lookup DOM API documentation on MDN
               });
+
             }
           }
         }

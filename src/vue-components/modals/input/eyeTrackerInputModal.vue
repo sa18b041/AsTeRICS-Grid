@@ -253,9 +253,13 @@ this.show = true;
       }
       // console.log("update", coord, this.docs);
     },
+     beforeDestroy() {
+    webgazer.end();
+  },
     delete1() {
       webgazer.end();
-      webgazer.showPredictionPoints(true);
+      webgazer.showPredictionPoints(false);
+      // webgazer.params.showVideoPreview = false;
       this.$emit("close");
     },
     cancel() {
