@@ -64,13 +64,15 @@
         <span class="eye-tracker">ON</span>
       </button>
 
-      <button id="OnOff" @click="showMe = !showMe" class="small">
-        <i class="fas fa-eye"></i>
-        <span class="eye-tracker">ON to toggle</span>
+      <button @click="showMe = !showMe" class ="small">
+        <!-- <button class="buttOnOff" @click="showMeWebgazer" {{showMe}}> -->
+        <i class="fas fa-eye">{{ showMe ? ' On' : ' Off' }}</i>
+        <!-- <span class="eye-tracker" v-if-else="showMe">{{turnOnWebGazer / turnOffWebGazer}}</span> -->
+         <span class="eye-tracker" ></span>
       </button>
-      <transition name="fade">
+      <!-- <transition name="fade">
         <p class="" v-if="showMe">Eyetracker is now switched off</p>
-      </transition>
+      </transition> -->
     </header>
 
     <huffman-input-modal
@@ -368,6 +370,12 @@ let vueConfig = {
         }
       }
     },
+    showMeWebgazer(){
+      // this.showMe = !this.showMe;
+      // this.showMe.text  ? 'Onn' : 'Off';
+      $store.state.activateWebGazer = true;
+    },
+   
     openModal(modalType) {
       this.showModal = modalType;
       stopInputMethods();
