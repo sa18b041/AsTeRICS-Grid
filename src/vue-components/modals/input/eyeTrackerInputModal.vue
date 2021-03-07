@@ -57,7 +57,7 @@
             <h1 name="header" class="modalHeader">Select your clicking settings</h1>
             <br>
             <button @click="showPopUp = true" class="buttonPopUp">Enter Intervall(ms)</button><br>
-             <label class="three columns" for="intervall">Intervalls(ms)</label>
+             <label class="three columns" for="intervall"></label>
              <input  min="0" step="500" class="six columns" type="number" placeholder="multiply of 500" v-model="intervall">
               <transition name="fade" appear>
               <div class="modal-overlay-PopUp" v-if="showPopUp" @click="showPopUp = false"></div>
@@ -73,7 +73,7 @@
             
             <br>        
             <button @click="showPopUp = true" class="buttonPopUp">Enter total counts</button> <br>
-            <label class="three columns" for="counterSteps">Total counts</label>
+            <label class="three columns" for="counterSteps"></label>
             <input min="0" step="5" placeholder="multiply of 5" class="six columns" type="number" v-model="counterSum">
             <transition name="fade" appear>
               <div class="modal-overlay-PopUp" v-if="showPopUp" @click="showPopUp = false"></div>
@@ -88,8 +88,8 @@
             
             <br>
             <button @click="showPopUp = true" class="buttonPopUp">Enter duration(ms)</button><br>
-            <label class="three columns" for="timeDuration">Duration(ms)</label>
-            <input min="0" step="500" placeholder="multiply of 500" class="six columns" type="number" v-model="duration">
+            <label class="three columns" for="timeDuration"></label>
+            <input min="0" step="500" placeholder="ms as a multiply of 500" class="six columns" type="number" v-model="duration">
             <transition name="fade" appear>
               <div class="modal-overlay-PopUp" v-if="showPopUp" @click="showPopUp = false"></div>
             </transition>
@@ -377,10 +377,7 @@ this.show = true;
   margin-bottom: 12px;
   cursor: pointer;
   font-size: 22px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+ 
 }
 /* On mouse-over, add a grey background color */
 .container:hover input ~ .checkmark {
@@ -400,9 +397,9 @@ this.show = true;
   cursor: pointer;
   display: inline-block;
   padding: 15px 25px;
-  background-image: linear-gradient(to right, #CC2E5E, #FF5858);
+  background-image: linear-gradient(to right, #2e58cc, #587fff);
   color: #FFF;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   box-shadow: 2px 3px rgba(0, 0, 0, 0.4);
   transition: 0.4s ease-out;
@@ -426,9 +423,9 @@ div.popUp {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 99;
+  z-index: 98;
   width: 100%;
-  max-width: 400px;
+  max-width: 300px;
   background-color: #FFF;
   border-radius: 16px;
   padding: 25px;

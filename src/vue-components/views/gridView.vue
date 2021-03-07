@@ -58,17 +58,17 @@
       <button
         id="eyeTrackerOnOff"
         @click="value = $store.state.activateWebGazer = true"
-        class="small"
-      >
+        class="small">
         <i class="fas fa-eye"></i>
         <span class="eye-tracker">ON</span>
       </button>
 
-      <button @click="showMe = !showMe" class ="small">
-        <!-- <button class="buttOnOff" @click="showMeWebgazer" {{showMe}}> -->
+      <!-- ON-OFF-BUTTON - toggle the Webgazer Start -->
+  <button @click="showMeFunction" class ="small">
+        <!-- <button @click="showMe = !showMe" class ="small"> -->
         <i class="fas fa-eye">{{ showMe ? ' On' : ' Off' }}</i>
         <!-- <span class="eye-tracker" v-if-else="showMe">{{turnOnWebGazer / turnOffWebGazer}}</span> -->
-         <span class="eye-tracker" ></span>
+         <span class="eye-tracker"></span>
       </button>
       <!-- <transition name="fade">
         <p class="" v-if="showMe">Eyetracker is now switched off</p>
@@ -238,9 +238,10 @@ let vueConfig = {
       viewInitialized: false,
       unlockCount: UNLOCK_COUNT,
       unlockCounter: UNLOCK_COUNT,
-      // value: null,
+      value: null,
       showMe: false,
       dwellingCounter: null,
+      decrementStarter: true,
     };
   },
   components: {
@@ -250,21 +251,21 @@ let vueConfig = {
     DirectionInputModal,
     EyeTrackerInputModal,
     MouseModal,
-    WebGazer,  //GazeCloud,// CalibrationPoints, PlottingCanvas,
+    WebGazer, //GazeCloud,// CalibrationPoints, PlottingCanvas,
     ScanningModal,
     HeaderIcon,
   },
   methods: {
-    onUpdate(coord) {
+      onUpdate(coord) {
       this.x = coord.x;
       this.y = coord.y;
       const timestamp = Date.now();
       const focusedElement = document.elementFromPoint(this.x, this.y);
       // var focusedElement = $(document.elementFromPoint(this.x, this.y));
-       if (focusedElement == null) {
-          this.focusedElementPrevious  = null;
-          return;
-      }
+      //  if (focusedElement == null) {
+      //     this.focusedElementPrevious  = null;
+      //     return;
+      // }
       
       // focusedElement = $(focusedElement.parents(".grid-item-content"));
       //   console.log(focusedElement.parentElement.parentElement);
@@ -277,7 +278,7 @@ let vueConfig = {
       let listArray = Array.from(lists);
       let containItems = listArray.filter((e) => e.classList.contains("item"));
       //   console.log('item' , containItems[0]);
-    //   console.log(containItems); // here all 9 elements are lsited
+      //   console.log(containItems); // here all 9 elements are lsited
 
       // if (containItems[0] === focusedElement.parentElement.parentElement) {
       //     this.dwellingCounter++;
@@ -289,18 +290,18 @@ let vueConfig = {
       //   });
 
       if (focusedElement == null || !containItems.includes(focusedElement)) {
-  //      this.focusedElementPrevious = null;
+      //  this.focusedElementPrevious = null;
         return;
+       
       }
-
-      if (this.focusedElementPrevious != focusedElement)
+        if (this.focusedElementPrevious != focusedElement)
        {
-        console.log("DEBUG", "Focused element not the same", focusedElement, this.focusedElementPrevious);
-
+        console.log("DEBUG", "Focused element not the same", focusedElement, this.focusedElementPrevious, "containItems", containItems);
+         this.focusedElementPrevious = focusedElement;
         
-        if (this.focusedElementPrevious !== null && timestamp - this.focusedElementPrevious.timestamp > 2000){
+        if (this.focusedElementPrevious !== null && timestamp - this.focusedElementPrevious.timestamp > 6000){
           this.focusedElementPrevious.counter = 0;
-        }else if (this.focusedElementPrevious !== null && timestamp - this.focusedElementPrevious.timestamp > 500)
+        }else if (this.focusedElementPrevious !== null && timestamp - this.focusedElementPrevious.timestamp > 3500)
         {
           if(this.focusedElementPrevious.counter >= 1 )
           this.focusedElementPrevious.counter--;
@@ -310,9 +311,7 @@ let vueConfig = {
           focusedElement.counter = 0;
           this.focusedElementPrevious = focusedElement;
         }
-}
-       else 
-       {
+    }  else  {
         const elementExists = typeof this.focusedElements.find(({ ref }) => ref === focusedElement) !== "undefined";
 
 // if(this.focusedElements.find(({ref}) => ref === focusedElement))
@@ -325,7 +324,7 @@ let vueConfig = {
 
         // if focused element is within the list of focusedElements - than element exists and =true! otherwise the 
         //element is not defined - the focusedElement was not found then the find method returns undefined!
-        console.log("DEBUG", "Focused element the same", elementExists, this.focusedElements)
+        console.log("DEBUG", "Focused element the same", elementExists, this.focusedElementPrevious, focusedElement, elementExists)
 
 //        if (elementExists === false) {
         if (!elementExists) {
@@ -338,7 +337,6 @@ let vueConfig = {
           const element = this.focusedElements.find(
             ({ ref }) => ref === focusedElement
           );
-
         // containItems.forEach(liItem => {
         //     // console.log(liItem.getAttribute('data-label'));
         // if (liItem === element.ref) {
@@ -346,23 +344,21 @@ let vueConfig = {
         //    }
         // });
 
-          if (timestamp - element.timestamp > 30) {
+          if (timestamp - element.timestamp > 100) {
             element.timestamp = timestamp;
             element.counter++;
 
             element.ref.classList.add(`click-duration-${element.counter}`);
             element.ref.focus();
 
-            if (element.counter > 5) {
+            if (element.counter > 4) {
               // Click
-             element.ref.click();
-            //   console.log("click")
-             
-           
+              element.ref.click();
+              console.log("click")
               console.log("DEBUG", "Extension: Click");
               this.focusedElements.forEach((el) => {
                el.counter = 0;
-                el.ref.classList.remove(); //delete() - Lookup DOM API documentation on MDN
+                el.ref.classList.remove(); //remove the css classlists on the focused elements
               });
 
             }
@@ -370,11 +366,22 @@ let vueConfig = {
         }
       }
     },
-    showMeWebgazer(){
-      // this.showMe = !this.showMe;
-      // this.showMe.text  ? 'Onn' : 'Off';
-      $store.state.activateWebGazer = true;
-    },
+
+    // showMeFunction(){
+    //   if(showMe = !showMe){
+    //   value = $store.state.activateWebGazer = true;
+    //   }
+    //   return;
+    // },
+     showMeFunction(){
+      //  
+        this.showMe = !this.showMe;
+        if(this.showMe){
+          value = $store.state.activateWebGazer = true;
+        } return;
+      }
+                        
+      ,
    
     openModal(modalType) {
       this.showModal = modalType;
