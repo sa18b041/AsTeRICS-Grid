@@ -56,7 +56,7 @@
       </button>
 
       <button
-        id="eyeTrackerOnOff"
+        id="eyeTrackerOnOff" style="color: blue"
         @click="value = $store.state.activateWebGazer = true"
         class="small">
         <i class="fas fa-eye"></i>
@@ -240,8 +240,7 @@ let vueConfig = {
       unlockCounter: UNLOCK_COUNT,
       value: null,
       showMe: false,
-      dwellingCounter: null,
-      decrementStarter: true,
+     
     };
   },
   components: {
@@ -283,25 +282,23 @@ let vueConfig = {
       // if (containItems[0] === focusedElement.parentElement.parentElement) {
       //     this.dwellingCounter++;
       //     console.log(this.dwellingCounter);
-
       // }
       //   containItems[0].addEventListener("mousemove", (e) => {
-      //       console.log('#')
+      //   console.log('#')
       //   });
 
       if (focusedElement == null || !containItems.includes(focusedElement)) {
       //  this.focusedElementPrevious = null;
         return;
-       
-      }
+       }
         if (this.focusedElementPrevious != focusedElement)
        {
         console.log("DEBUG", "Focused element not the same", focusedElement, this.focusedElementPrevious, "containItems", containItems);
          this.focusedElementPrevious = focusedElement;
         
-        if (this.focusedElementPrevious !== null && timestamp - this.focusedElementPrevious.timestamp > 6000){
+        if (this.focusedElementPrevious !== null && timestamp - this.focusedElementPrevious.timestamp > 3000){
           this.focusedElementPrevious.counter = 0;
-        }else if (this.focusedElementPrevious !== null && timestamp - this.focusedElementPrevious.timestamp > 3500)
+        }else if (this.focusedElementPrevious !== null && timestamp - this.focusedElementPrevious.timestamp > 1500)
         {
           if(this.focusedElementPrevious.counter >= 1 )
           this.focusedElementPrevious.counter--;
@@ -324,7 +321,7 @@ let vueConfig = {
 
         // if focused element is within the list of focusedElements - than element exists and =true! otherwise the 
         //element is not defined - the focusedElement was not found then the find method returns undefined!
-        console.log("DEBUG", "Focused element the same", elementExists, this.focusedElementPrevious, focusedElement, elementExists)
+        console.log("DEBUG", "Focused element the same", this.focusedElements, elementExists, this.focusedElementPrevious, focusedElement, elementExists)
 
 //        if (elementExists === false) {
         if (!elementExists) {
@@ -343,22 +340,22 @@ let vueConfig = {
         //     this.dwellingCounter++;
         //    }
         // });
-
-          if (timestamp - element.timestamp > 100) {
+         if (timestamp - element.timestamp > 50) {
             element.timestamp = timestamp;
             element.counter++;
 
             element.ref.classList.add(`click-duration-${element.counter}`);
             element.ref.focus();
 
-            if (element.counter > 4) {
+            if (element.counter > 5) {
               // Click
               element.ref.click();
               console.log("click")
               console.log("DEBUG", "Extension: Click");
               this.focusedElements.forEach((el) => {
-               el.counter = 0;
-                el.ref.classList.remove(); //remove the css classlists on the focused elements
+              el.counter = 0;
+              console.log(el);
+              el.ref.classList.remove(); //remove the css classlists on the focused elements
               });
 
             }

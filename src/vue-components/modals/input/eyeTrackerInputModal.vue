@@ -19,7 +19,14 @@
            
           <div class="modal-header">
             <h1 name="header" class="modalHeader">Choose your Eye tracking mode</h1>
-            
+            </div>
+           <div class="modal-body" v-if="inputConfig">
+                        <div class="row" >
+                            <div class="twelve columns">
+                                <input v-focus type="checkbox" id="enableClick" v-model="inputConfig.eyetrackingEnabled"/>
+                                <label class="inline" for="enableClick" data-i18n>Select with eyetracker Webgazer / click // Auswahl mit Augensteuerung (Kalibrierung mit Klicken)</label>
+                            </div>
+                        </div> 
             
 
             <input
@@ -147,8 +154,10 @@ import InputEventList from "../../components/inputEventList.vue";
 import TestArea from "./testArea.vue";
 import "./../../../css/modal.css";
 import { InputConfig } from "../../../js/model/InputConfig";
-import { Scanner } from "../../../js/input/scanning";
+// import { Scanner } from "../../../js/input/scanning";
 import { inputEventHandler } from "../../../js/input/inputEventHandler";
+import {Hover} from "../../../js/input/hovering";
+import {Clicker} from "../../../js/input/clicking";
 
 import WebGazer from "../../eyetracker/WebGazer.vue";
 import GazeCloud from "../../components/GazeCloud.vue";
@@ -172,15 +181,17 @@ export default {
       duration: null,
       show: false,
       inputConfig: true,
-      touchScanning: null,
+      hover: null,
+      clicker: null,
+      // touchScanning: null,
       metadata: null,
       InputConfig: InputConfig,
       error: "",
       errorInputs: [],
-      scanner: null,
+      // scanner: null,
+      test: "",
       testOpen: false,
       selectedTestElement: null,
-      test: "",
       webGazerOn: true,
       showPopUp: false,
     };
@@ -312,7 +323,7 @@ this.show = true;
       this.$set(
         this.inputConfig,
         "eyetrackingInputs",
-        JSON.parse(JSON.stringify(InputConfig.DEFAULT_SCAN_INPUTS))
+        JSON.parse(JSON.stringify(InputConfig.DEFAULT_EYETRACKER_INPUTS))
       );
       this.inputChanged();
     },
@@ -320,7 +331,7 @@ this.show = true;
     initTest() {
       setTimeout(() => {
         this.stopTest();
-        if (this.inputConfig.scanEnabled) {
+        if (this.inputConfig.eyetrackingEnabled) {
           this.scanner = Scanner.getInstanceFromConfig(
             this.inputConfig,
             ".area-element-inner",
@@ -334,11 +345,11 @@ this.show = true;
         }
       }, 100);
     },
-    stopTest() {
-      if (this.scanner) {
-        this.scanner.destroy();
-      }
-    },
+    // stopTest() {
+    //   if (this.scanner) {
+    //     this.scanner.destroy();
+    //   }
+    // },
   },
   mounted() {
     let thiz = this;
@@ -346,9 +357,9 @@ this.show = true;
     dataService.getMetadata().then((metadata) => {
       thiz.metadata = JSON.parse(JSON.stringify(metadata));
       thiz.inputConfig = JSON.parse(JSON.stringify(metadata.inputConfig));
-      thiz.touchScanning = !thiz.inputConfig.mouseclickEnabled;
+      
     });
-    helpService.setHelpLocation("04_input_options", "#scanning");
+    helpService.setHelpLocation("04_input_options", "#eyetracking-input");
   },
   updated() {
     i18nService.initDomI18n();

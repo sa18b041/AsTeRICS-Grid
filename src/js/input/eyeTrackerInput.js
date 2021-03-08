@@ -5,21 +5,21 @@ import {InputConfig} from "../model/InputConfig";
 
 let Scanner = {};
 
-Scanner.getInstanceFromConfig = function (inputConfig, itemSelector, scanActiveClass, scanInactiveClass) {
-    return new ScannerConstructor(itemSelector, scanActiveClass, {
-        autoScan: inputConfig.scanAuto,
-        scanVertical: inputConfig.scanVertical,
-        subScanRepeat: 3,
-        scanBinary: inputConfig.scanBinary,
-        scanInactiveClass: scanInactiveClass,
-        minBinarySplitThreshold: 3,
-        scanTimeoutMs: inputConfig.scanTimeoutMs,
-        scanTimeoutFirstElementFactor: inputConfig.scanTimeoutFirstElementFactor,
-        touchScanning: !inputConfig.mouseclickEnabled,
-        inputEventSelect: inputConfig.scanInputs.filter(e => e.label === InputConfig.SELECT)[0],
-        inputEventNext: inputConfig.scanInputs.filter(e => e.label === InputConfig.NEXT)[0]
-    });
-};
+// Scanner.getInstanceFromConfig = function (inputConfig, itemSelector, scanActiveClass, scanInactiveClass) {
+//     return new ScannerConstructor(itemSelector, scanActiveClass, {
+//         autoScan: inputConfig.scanAuto,
+//         scanVertical: inputConfig.scanVertical,
+//         subScanRepeat: 3,
+//         scanBinary: inputConfig.scanBinary,
+//         scanInactiveClass: scanInactiveClass,
+//         minBinarySplitThreshold: 3,
+//         scanTimeoutMs: inputConfig.scanTimeoutMs,
+//         scanTimeoutFirstElementFactor: inputConfig.scanTimeoutFirstElementFactor,
+//         touchScanning: !inputConfig.mouseclickEnabled,
+//         inputEventSelect: inputConfig.scanInputs.filter(e => e.label === InputConfig.SELECT)[0],
+//         inputEventNext: inputConfig.scanInputs.filter(e => e.label === InputConfig.NEXT)[0]
+//     });
+// };
 
 function ScannerConstructor(itemSelector, scanActiveClass, options) {
     var thiz = this;
