@@ -129,7 +129,7 @@
                 <span data-i18n>Cancel // Abbrechen</span>
               </button>
               <button
-                @click="$store.state.activateWebGazer = true"
+                @click="activateWebGazer = true"
                 class="four columns"
               >
                 <i class="fas fa-check" /> <span>OK</span>
@@ -194,6 +194,7 @@ export default {
       selectedTestElement: null,
       webGazerOn: true,
       showPopUp: false,
+      activateWebGazer:false,
     };
   },
   watch: {
