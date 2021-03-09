@@ -128,6 +128,7 @@
       @update="onUpdate"
       :off="false"
     />
+ 
 
     <!-- <GazeCloud @update="onUpdate" />  -->
 
@@ -199,6 +200,7 @@ import { printService } from "../../js/service/printService";
 import WebGazer from "../eyetracker/WebGazer.vue";
 import GazeCloud from "../components/GazeCloud.vue";
 import store from "../../store/store.js";
+import { InputConfig } from "../../js/model/InputConfig.js";
 
 let vueApp = null;
 let gridInstance = null;
@@ -330,7 +332,7 @@ let vueConfig = {
         this.showMe = !this.showMe;
         if(this.showMe){
           //value = $store.state.activateWebGazer = true;
-          this.activateWebGazer = true;
+          this.activateWebGazer =inputConfig.eyetrackingEnabled= true;
         } return;
       }
                         
@@ -428,6 +430,7 @@ let vueConfig = {
         this.huffmanInput.start();
       }
       if (inputConfig.eyetrackingEnabled) {
+        this.activateWebGazer = true;
         this.eyetrackingInput = EyetrackingInput.getInstanceFromConfig(
           inputConfig,
           ".grid-item-content",
@@ -436,6 +439,8 @@ let vueConfig = {
           selectionListener
         );
         this.eyetrackingInput.start();
+      }else{
+        this.activateWebGazer = false;
       }
 
       if (inputConfig.scanEnabled) {
@@ -486,6 +491,7 @@ let vueConfig = {
         initContextmenu(); //in order to update visualization of active input methods in context menu
         thiz.initInputMethods();
       });
+      //this.activateWebGazer = InputConfig.eyetrackingEnabled
     },
     reload(gridData) {
       gridInstance.reinit(gridData).then(() => {
@@ -580,6 +586,7 @@ let vueConfig = {
     },
   },
   computed: {
+
     filteredGrids: function() {
       return [];
     },
@@ -686,6 +693,7 @@ let vueConfig = {
   },
   updated() {
     i18nService.initDomI18n();
+    this.activateWebGazer =inputConfig.eyetrackingEnabled
   },
   beforeDestroy() {
     $(document).off(constants.EVENT_DB_PULL_UPDATED, this.reloadFn);
