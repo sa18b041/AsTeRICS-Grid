@@ -299,14 +299,14 @@ let vueConfig = {
         const element = this.focusedElements.find(
             ({ref}) => ref === focusedElement
         );
-        if (timestamp - element.timestamp > 50) {
+        if (timestamp - element.timestamp > 100) {
           element.timestamp = timestamp;
           element.counter++;
           element.ref.classList.add(`click-duration-${element.counter}`);
           element.ref.focus();
-          if (element.counter > 10) {
+          if (element.counter > 5) {
             element.ref.click();
-            console.log("Clicked");
+            console.log("Clicked", element.ref);
             this.focusedElements.forEach((el) => {
               for(let i=1;i<=el.counter;i++){
                 el.ref.classList.remove(`click-duration-`+i)
@@ -859,9 +859,9 @@ export default vueConfig;
   background-color: #555555;
 }
 .click-duration-4 {
-  background-color: #333333;
+  background-color: #3715d1; 
 }
 .click-duration-5 {
-  background-color: #111111;
+  background-color: #f50c0c;
 }
 </style>
