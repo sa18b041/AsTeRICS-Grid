@@ -268,7 +268,7 @@ let vueConfig = {
     HeaderIcon,
   },
   methods: {
- onUpdate(coord){
+  onUpdate(coord){
       this.x = coord.x;
       this.y = coord.y;
       const timestamp = Date.now();
@@ -394,6 +394,8 @@ let vueConfig = {
       }
 
       let inputConfig = thiz.metadata.inputConfig;
+      this.activateWebGazer = inputConfig.eyetrackingEnabled;
+
       window.addEventListener("resize", thiz.resizeListener, true);
       $(document).on(constants.EVENT_GRID_RESIZE, thiz.resizeListener);
       let selectionListener = (item) => {
@@ -452,7 +454,7 @@ let vueConfig = {
       //   this.activateWebGazer = false;
       // }
 
-      if (inputConfig.eyetrackingEnabled){
+     /* if (inputConfig.eyetrackingEnabled){
         thiz.eyetrackingInput = EyetrackingInput.getInstanceFromConfig(
                inputConfig,
           ".grid-item-content"        
@@ -460,7 +462,7 @@ let vueConfig = {
         thiz.eyetrackingInput.start();
       }else{
         thiz.activateWebGazer = false;
-      }
+      }*/
 
         
       
@@ -512,8 +514,8 @@ let vueConfig = {
         initContextmenu(); //in order to update visualization of active input methods in context menu
         thiz.initInputMethods();
       });
-      console.log("kkkk");
-       this.activateWebGazer = InputConfig.eyetrackingEnabled
+      //console.log("kkkk");
+       //this.activateWebGazer = InputConfig.eyetrackingEnabled
     },
     reload(gridData) {
       gridInstance.reinit(gridData).then(() => {

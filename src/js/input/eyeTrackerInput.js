@@ -5,23 +5,23 @@ import {InputConfig} from "../model/InputConfig";
 
 let EyeTracker = {};
 
-// EyeTracker.getInstanceFromConfig = function (inputConfig, itemSelector, anActiveClass, scanInactiveClass, selectionListener) {
-//     return new EyeTrackerConstructor(itemSelector, scanActiveClass, scanInactiveClass, {
+EyeTracker.getInstanceFromConfig = function (inputConfig, itemSelector, scanActiveClass, scanInactiveClass, selectionListener) {
+    return new EyeTrackerConstructor(itemSelector, scanActiveClass, scanInactiveClass, {
        
-//         webGazerStart: inputConfig.eyetrackingEnabled,
-//         webGazerCalibrationStart: !inputConfig.mouseclickEnabled,
-//         inputEventSelect: inputConfig.eyetrackingEnabled.filter(e => e.label === InputConfig.SELECT)[0],
-//         inputEventNext: inputConfig.eyetrackingEnabled.filter(e => e.label === InputConfig.NEXT)[0]
-//     });
-// };
+        webGazerStart: inputConfig.eyetrackingEnabled,
+        webGazerCalibrationStart: !inputConfig.mouseclickEnabled,
+        inputEventSelect: inputConfig.eyetrackingEnabled.filter(e => e.label === InputConfig.SELECT)[0],
+        inputEventNext: inputConfig.eyetrackingEnabled.filter(e => e.label === InputConfig.NEXT)[0]
+    });
+};
 
-// function EyeTrackerConstructor(itemSelector, options) {
-//     var thiz = this;
+function EyeTrackerConstructor(itemSelector, options) {
+    var thiz = this;
 
-//     //options
-//     var itemSelector = itemSelector;
-//     var scanActiveClass = scanActiveClass;
-//     var scanInactiveClass = '';
+    //options
+    var itemSelector = itemSelector;
+    var scanActiveClass = scanActiveClass;
+    var scanInactiveClass = '';
 //     var scanTimeoutMs = 1000;
 //     var scanVertical = false;
 //     var subScanRepeat = 3;
@@ -43,9 +43,9 @@ let EyeTracker = {};
 //     let _inputEventHandler = null;
 //     let _nextScanFn = null;
 
-//     function init() {
-//         parseOptions(options);
-//     }
+    function init() {
+        parseOptions(options);
+    }
 
 //     function parseOptions(options) {
 //         if (options) {
@@ -156,6 +156,78 @@ let EyeTracker = {};
 //         }
 //     }
 
+function onUpdate(coord){
+    this.x = coord.x;
+    this.y = coord.y;
+    const timestamp = Date.now();
+    const focusedElement = document.elementFromPoint(this.x, this.y);
+    let container = document.getElementById("grid-container");
+    let list = container.children[0];
+    let lists = list.children;
+    let listArray = Array.from(lists);
+    let containItems = listArray.filter((e) => e.classList.contains("item"));
+    //elements not found or does not contain item within the grid-element
+    if (focusedElement == null || !containItems.includes(focusedElement)) {
+      return;
+    }
+    //evaluate the time to reduce or delete counter 
+    this.focusedElements.forEach((el) => {
+      if(timestamp - el.timestamp > 6000){
+        for(let i=1;i<=el.counter;i++){
+          el.ref.classList.remove(`click-duration-`+i)
+        }
+        el.counter = 0;
+      }else if(timestamp - el.timestamp > 1500 && el.counter >= 1){
+        el.ref.classList.remove(`click-duration-${el.counter}`)
+        el.counter--;
+      }
+    });
+    
+    // the new element should be evaluated if it is a new focusedElement or already within the array
+
+    const elementExists = typeof this.focusedElements.find(({ref}) => ref === focusedElement) !== "undefined";
+    if (!elementExists) {
+      focusedElement.classList.add(`click-duration-1`);
+      this.focusedElements.push({
+        ref: focusedElement,
+        counter: 1,
+        timestamp,
+      });
+    } else { 
+      // find if the new element is already within focusedElements
+      const element = this.focusedElements.find(
+          ({ref}) => ref === focusedElement
+      );
+      if (timestamp - element.timestamp > 100) {
+        element.timestamp = timestamp;
+        element.counter++;
+        element.ref.classList.add(`click-duration-${element.counter}`);
+        element.ref.focus();
+        if (element.counter > 5) {
+          element.ref.click();
+          console.log("Clicked", element.ref);
+          this.focusedElements.forEach((el) => {
+            for(let i=1;i<=el.counter;i++){
+              el.ref.classList.remove(`click-duration-`+i)
+            }
+          });
+          this.focusedElements = [];
+        }
+      }
+    }
+  }
+   
+
+function beforeDestroy() {
+    webgazer.end();
+  }
+    function delete1() {
+      webgazer.end();
+      webgazer.showPredictionPoints(false);
+      // webgazer.params.showVideoPreview = false;
+      this.$emit("close");
+    }
+
 //     /**
 //      * returns a function that can be passed to Array.sort() for sorting an array.
 //      * elements with biggest size according to the osition values evaluated by the given 'minPosFn' and
@@ -189,6 +261,7 @@ let EyeTracker = {};
 //             return 0;
 //         };
 //     }
+
 
 //     /**
 //      * returns a function that can be passed to Array.sort() for sorting an array.
@@ -424,6 +497,6 @@ let EyeTracker = {};
 //         }
 //     };
 //     init();
-// }
+}
 
-// export {EyeTracker};
+export {EyeTracker};
