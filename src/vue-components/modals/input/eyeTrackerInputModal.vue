@@ -49,65 +49,102 @@
 
            <div v-show="inputConfig.eyetrackingEnabled">
 
-                  
+              <accordion acc-label="Input // Eingabe" acc-open="true" acc-label-type="h2" acc-background-color="white" class="row">
+                                <input-event-list v-model="inputConfig.eyetrackingInputs" :input-labels="[InputConfig.SELECT, InputConfig.NEXT]" :error-inputs="errorInputs" @input="inputChanged"></input-event-list>
+                                <!-- <div class="row">
+                                    <button class="twelve columns" data-i18n="" @click="resetInput">Reset to default input configuration // Auf Standard Eingabe-Konfiguration zurücksetzen</button>
+                                </div>
+                            </accordion>     
+
+                                               
+                            <accordion acc-label="ADVANCED_SETTINGS" acc-label-type="h2" acc-background-color="white">
+                                <div class="row" style="margin-top: 0">
+                                    <div class="twelve columns">
+                                        <input type="checkbox" id="chkVerticalScanning" v-model="inputConfig.scanVertical"/>
+                                        <label for="chkVerticalScanning" data-i18n>Vertical scanning // Scanning vertikal</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="twelve columns">
+                                        <input type="checkbox" id="chkBinaryScanning" v-model="inputConfig.scanBinary"/>
+                                        <label for="chkBinaryScanning" data-i18n>Binary scanning // Scanning binär</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="twelve columns">
+                                        <input type="checkbox" id="chkTouchScanning" v-model="touchScanning" @change="changeTouchScanning"/>
+                                        <label for="chkTouchScanning" data-i18n>Scanning-selection by mouse click or tap // Scanning-Auswahl durch Mausklick oder tippen</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="twelve columns">
+                                        <input type="checkbox" id="chkAutoScanning" v-model="inputConfig.scanAuto"/>
+                                        <label for="chkAutoScanning" data-i18n>Automatic (timed) scanning // Automatisches (zeitgesteuertes) Scanning</label>
+                                    </div>
+                                </div>
+                                <div class="row" v-show="inputConfig.scanAuto">
+                                    <label class="four columns" for="inScanTime" data-i18n>Scanning Time (ms) // Scanning Zeit (ms)</label>
+                                    <input type="range" id="inScanTime" v-model.number="inputConfig.scanTimeoutMs" min="100" max="3000" step="100"/>
+                                    <input type="number" v-model.number="inputConfig.scanTimeoutMs" min="100" max="3000" step="100"/>
+                                </div>
+                                <div class="row" v-show="inputConfig.scanAuto">
+                                    <label class="four columns" for="inFirstElement" data-i18n>Time factor first element // Zeit-Faktor erstes Element</label>
+                                    <input type="range" id="inFirstElement" v-model.number="inputConfig.scanTimeoutFirstElementFactor" min="1" max="5" step="0.1"/>
+                                    <input type="number" v-model.number="inputConfig.scanTimeoutFirstElementFactor" min="1" max="5" step="0.5" />
+                                </div> -->
              
-          <!-- <div v-show="showPopUp" class="row">
+          <div class="row">
             <h1 name="header" class="modalHeader">Select your clicking settings</h1>
             <br>
-            <div v-show="inputConfig.eyetrackingEnabled">
-         <accordion acc-label="Input // Eingabe" acc-open="true" acc-label-type="h2" acc-background-color="white" class="row">
-                                <input-event-list v-model="inputConfig.scanInputs" :input-labels="[InputConfig.SELECT, InputConfig.NEXT]" :error-inputs="errorInputs" @input="inputChanged"></input-event-list>
-                               
-                            </accordion></div>
-            <button @click="showPopUp = true" class="buttonPopUp">Enter Intervall(ms)</button><br>
+   
+            <button @click="showPopUp1 = true" class="buttonPopUp">Enter Intervall(ms)</button><br>
              <label class="three columns" for="intervall"></label>
              <input  min="0" step="500" class="six columns" type="number" placeholder="multiply of 500" v-model="intervall">
               <transition name="fade" appear>
-              <div class="modal-overlay-PopUp" v-if="showPopUp" @click="showPopUp = false"></div>
+              <div class="modal-overlay-PopUp" v-if="showPopUp1" @click="showPopUp1 = false"></div>
               </transition>
                 <transition name="slide" appear>
-                  <div class="popUp" v-if="showPopUp">
+                  <div class="popUp" v-if="showPopUp1">
                     <h1>Heading of the pop Up</h1>
                     <p>text of the description of the settings for the clicking algorithm</p>
-                    <button class="buttonPopUp" @click="showPopUp = false">Close</button>
+                    <button class="buttonPopUp" @click="showPopUp1 = false">Close</button>
                   </div>
                </transition>        
               <br>                      
             
             <br>        
-            <button @click="showPopUp = true" class="buttonPopUp">Enter total counts</button> <br>
+            <button @click="showPopUp2 = true" class="buttonPopUp">Enter total counts</button> <br>
             <label class="three columns" for="counterSteps"></label>
             <input min="0" step="5" placeholder="multiply of 5" class="six columns" type="number" v-model="counterSum">
             <transition name="fade" appear>
-              <div class="modal-overlay-PopUp" v-if="showPopUp" @click="showPopUp = false"></div>
+              <div class="modal-overlay-PopUp" v-if="showPopUp2" @click="showPopUp2 = false"></div>
             </transition>
             <transition name="slide" appear>
-              <div class="popUp" v-if="showPopUp">
+              <div class="popUp" v-if="showPopUp2">
                 <h1>Total sum of counts to click</h1>
                 <p>Here you need to select the number of counts to be on the item that the selected grid item is clicked</p>
-                <button class="buttonPopUp" @click="showPopUp = false">Close</button>
+                <button class="buttonPopUp" @click="showPopUp2 = false">Close</button>
                    </div>
                </transition>  <br>
             
             <br>
-            <button @click="showPopUp = true" class="buttonPopUp">Enter duration(ms)</button><br>
+            <button @click="showPopUp3 = true" class="buttonPopUp">Enter duration(ms)</button><br>
             <label class="three columns" for="timeDuration"></label>
             <input min="0" step="500" placeholder="ms as a multiply of 500" class="six columns" type="number" v-model="duration">
             <transition name="fade" appear>
-              <div class="modal-overlay-PopUp" v-if="showPopUp" @click="showPopUp = false"></div>
+              <div class="modal-overlay-PopUp" v-if="showPopUp3" @click="showPopUp3 = false"></div>
             </transition>
             <transition name="slide" appear>
-              <div class="popUp" v-if="showPopUp">
+              <div class="popUp" v-if="showPopUp3">
                 <h1>Duration on the grid element</h1>
                 <p>it depends how long the user should be on the grid element before it is finally clicked</p>
-                <button class="buttonPopUp" @click="showPopUp = false">Close</button>
+                <button class="buttonPopUp" @click="showPopUp3 = false">Close</button>
                    </div>
                </transition>  
-            
-            <br><br>
-           
-            
-    </div> -->
+                      
+    </div>
+                            </accordion>
+
             <!-- <input type="submit" value="Enable Eyetracking // Augensteuerung aktivieren"> -->
 
             <!-- <PlottingCanvas />
@@ -160,6 +197,7 @@
                             </button>
                             <button @click="save()" class="four columns">
                                 <i class="fas fa-check"/> <span>OK</span>
+                                
                             </button>
                         </div>
                     </div>
@@ -220,7 +258,9 @@ export default {
       testOpen: false,
       selectedTestElement: null,
       // webGazerOn: true,
-      showPopUp: false,
+      showPopUp3: false,
+      showPopUp1: false,
+      showPopUp2: false,
       // activateWebGazer: false,
     };
   },
@@ -299,16 +339,6 @@ export default {
       // webgazer.params.showVideoPreview = false;
       this.$emit("close");
     },
-            //     save() {
-            //     if (!this.validateInputs()) {
-            //         return;
-            //     }
-            //     this.metadata.inputConfig = this.inputConfig;
-            //     dataService.saveMetadata(this.metadata).then(() => {
-            //         this.$emit('close');
-            //     });
-            // },
-
      save() {
       if (!this.validateInputs()) {
         return;
@@ -322,12 +352,7 @@ export default {
       this.$emit("close");
       
     },
-    // startCalibration() {
-    //   alert(
-    //     "Please click 10 times on the red button when the camera has started"
-    //   );
-    // },
-   
+     
     openHelp() {
       helpService.openHelp();
     },
@@ -391,64 +416,64 @@ export default {
     //     JSON.parse(JSON.stringify(InputConfig.DEFAULT_EYETRACKER_INPUTS))
     //   );
     //   this.inputChanged();
-    // },
-             initTest() {
-                setTimeout(() => {
-                    this.stopTest();
-                    if (this.inputConfig.scanEnabled) {
-                        this.scanner = Scanner.getInstanceFromConfig(this.inputConfig, '.area-element-inner', 'active', 'inactive');
-                        this.scanner.setSelectionListener(element => {
-                            this.selectedTestElement = element;
-                        });
-                        this.scanner.startScanning();
-                    }
-                }, 100);
-            },
+    // // },
+    //          initTest() {
+    //             setTimeout(() => {
+    //                 this.stopTest();
+    //                 if (this.inputConfig.scanEnabled) {
+    //                     this.scanner = Scanner.getInstanceFromConfig(this.inputConfig, '.area-element-inner', 'active', 'inactive');
+    //                     this.scanner.setSelectionListener(element => {
+    //                         this.selectedTestElement = element;
+    //                     });
+    //                     this.scanner.startScanning();
+    //                 }
+    //             }, 100);
+    //         },
 
-    // initTest() {
-    //     setTimeout(() => {
-    //     this.stopTest();
-    //     if (this.inputConfig.eyetrackingEnabled) {
-    //       this.scanner = Scanner.getInstanceFromConfig(
-    //         this.inputConfig,
-    //         ".area-element-inner",
-    //         "active",
-    //         "inactive"
-    //       );
-    //       this.scanner.setSelectionListener((element) => {
-    //         this.selectedTestElement = element;
-    //       });
-    //       this.scanner.startScanning();
-    //     }
-    //   }, 100);
-    // },
-    stopTest() {
-      if (this.scanner) {
-        this.scanner.destroy();
-      }
+    initTest() {
+        setTimeout(() => {
+        this.stopTest();
+        if (this.inputConfig.eyetrackingEnabled) {
+          this.scanner = Scanner.getInstanceFromConfig(
+            this.inputConfig,
+            ".area-element-inner",
+            "active",
+            "inactive"
+          );
+          this.scanner.setSelectionListener((element) => {
+            this.selectedTestElement = element;
+          });
+          this.scanner.startScanning();
+        }
+      }, 100);
     },
+    // stopTest() {
+    //   if (this.scanner) {
+    //     this.scanner.destroy();
+    //   }
+    // },
   },
-  mounted () {
-            let thiz = this;
-            inputEventHandler.pauseAll();
-            dataService.getMetadata().then(metadata => {
-                thiz.metadata = JSON.parse(JSON.stringify(metadata));
-                thiz.inputConfig = JSON.parse(JSON.stringify(metadata.inputConfig));
-                thiz.touchScanning = !thiz.inputConfig.mouseclickEnabled;
-            });
-            helpService.setHelpLocation('04_input_options', '#scanning');
-        },
+  // mounted () {
+  //           let thiz = this;
+  //           inputEventHandler.pauseAll();
+  //           dataService.getMetadata().then(metadata => {
+  //               thiz.metadata = JSON.parse(JSON.stringify(metadata));
+  //               thiz.inputConfig = JSON.parse(JSON.stringify(metadata.inputConfig));
+  //               thiz.touchScanning = !thiz.inputConfig.mouseclickEnabled;
+  //           });
+  //           helpService.setHelpLocation('04_input_options', '#scanning');
+  //       },
 
-  // mounted() {
-  //   let thiz = this;
-  //   inputEventHandler.pauseAll();
-  //   dataService.getMetadata().then((metadata) => {
-  //     thiz.metadata = JSON.parse(JSON.stringify(metadata));
-  //     thiz.inputConfig = JSON.parse(JSON.stringify(metadata.inputConfig));
+  mounted() {
+    let thiz = this;
+    inputEventHandler.pauseAll();
+    dataService.getMetadata().then((metadata) => {
+      thiz.metadata = JSON.parse(JSON.stringify(metadata));
+      thiz.inputConfig = JSON.parse(JSON.stringify(metadata.inputConfig));
       
-  //   });
-  //   helpService.setHelpLocation("04_input_options", "#eyetracking-input");
-  // },
+    });
+    helpService.setHelpLocation("04_input_options", "#eyetracking-input");
+  },
   updated() {
     i18nService.initDomI18n();
   },
