@@ -466,7 +466,8 @@ let vueConfig = {
         thiz.activateWebGazer = false;
       }*/
       if (inputConfig.eyetrackingEnabled){
-        //console.log(inputConfig.eyetrackingClicks);
+        console.log(inputConfig.eyetrackingClicks);
+        // console.log()
         this.eyeTrackerInput = EyeTracker.getInstanceFromConfig(inputConfig);
         this.activateWebGazer = true;
         this.eyeTrackerInput.start();

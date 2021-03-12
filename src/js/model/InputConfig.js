@@ -39,6 +39,8 @@ class InputConfig extends Model({
     eyetrackingInputs: [Model.Array(Object)],
     eyetrackingEnabled: [Boolean],
     eyetrackingClicks: [String],
+    eyetrackingDuration: [String],
+    eyetrackingIntervall: [String],
     
 }) {
     constructor(properties, elementToCopy) {
@@ -125,6 +127,7 @@ InputConfig.defaults({
     huffElementCount: 0,
     huffTimeout: 4000,
     huffMarkInactive: true,
+    eyetrackingDuration: "6000",
     eyetrackingInputs: InputConfig.DEFAULT_EYETRACKER_INPUTS
 });
 

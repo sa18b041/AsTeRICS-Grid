@@ -32,7 +32,7 @@
                         <div class="row" >
                             <div class="twelve columns">
                                 <input v-focus type="checkbox" id="enableWebgazer" v-model="inputConfig.eyetrackingEnabled"/>
-                                <label class="inline" for="enableWebgazer" data-i18n>Enable Webgazer // webgazer aktivieren</label>
+                                <label class="inline" for="enableWebgazer" data-i18n>Enable Webgazer // Webgazer aktivieren</label>
                             </div>
                         </div>
 
@@ -99,7 +99,7 @@
    
             <button @click="showPopUp1 = true" class="buttonPopUp">Enter Intervall(ms)</button><br>
              <label class="three columns" for="intervall"></label>
-             <input  min="0" step="500" class="six columns" type="number" placeholder="multiply of 500" v-model="intervall">
+             <input  min="0" step="500" class="six columns" type="number" placeholder="multiply of 500" v-model="inputConfig.eyetrackingIntervall">
               <transition name="fade" appear>
               <div class="modal-overlay-PopUp" v-if="showPopUp1" @click="showPopUp1 = false"></div>
               </transition>
@@ -130,7 +130,7 @@
             <br>
             <button @click="showPopUp3 = true" class="buttonPopUp">Enter duration(ms)</button><br>
             <label class="three columns" for="timeDuration"></label>
-            <input min="0" step="500" placeholder="ms as a multiply of 500" class="six columns" type="number" v-model="duration">
+            <input min="0" step="500" placeholder="ms as a multiply of 500" class="six columns" type="number" v-model="inputConfig.eyetrackingDuration">
             <transition name="fade" appear>
               <div class="modal-overlay-PopUp" v-if="showPopUp3" @click="showPopUp3 = false"></div>
             </transition>

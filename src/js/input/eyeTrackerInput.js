@@ -8,18 +8,21 @@ import webgazer from "webgazer";
 let EyeTracker = {
 
 };
-
+//Aufruf vom Eyetracker - die inputConfig Werte werden übergeben u Position muss richtig sein
 EyeTracker.getInstanceFromConfig = function(inputConfig){
-    return new EyeTrackerConstructor(inputConfig.eyetrackingClicks);
+    return new EyeTrackerConstructor(inputConfig.eyetrackingClicks, inputConfig.eyetrackingIntervall, inputConfig.eyetrackingDuration);
 }
-
-function EyeTrackerConstructor(counter) {
+// Übergabe muss nach diesem Schema laufen - zuerst counter, dann intervall, dann duration
+function EyeTrackerConstructor(counter,intervall, duration) {
   //var webgazerIstance = webgazer;
    this.x =null;
    this.y =null;
    this.focusedElements = [];
    this.counter = Number(counter);
-    console.log(this.counter);
+   this.duration = Number(duration);
+   this.intervall = Number(intervall);
+   //console.log(this.counter);
+   console.log("at the constructor level", this.duration);
 
     this.getWebGazer= function (){
       return webgazer;
@@ -30,13 +33,14 @@ function EyeTrackerConstructor(counter) {
       webgazer.showVideo(false) ;
       webgazer.params.showVideoPreview = false; // set to false than the video will not be opened
       webgazer.end();
-      location.reload();
+      //location.reload();
 
   }
 
   this.onUpdate = function (coord){
         console.log("coming from eyeTrackerInput.js");
-       // console.log(InputConfig.eyetrackingClicks);
+       console.log(this.intervall, this.duration, this.clicks); //originally worked!! 
+       //console.log(this.counter);
       this.x = coord.x;
       this.y = coord.y;
       const timestamp = Date.now();
@@ -52,12 +56,12 @@ function EyeTrackerConstructor(counter) {
       }
       //evaluate the time to reduce or delete counter
       this.focusedElements.forEach((el) => {
-          if(timestamp - el.timestamp > 6000){
+          if(timestamp - el.timestamp > this.duration){
               for(let i=1;i<=el.counter;i++){
                   el.ref.classList.remove(`click-duration-`+i)
               }
               el.counter = 0;
-          }else if(timestamp - el.timestamp > 1500 && el.counter >= 1){
+          }else if(timestamp - el.timestamp > this.intervall && el.counter >= 1){
               el.ref.classList.remove(`click-duration-${el.counter}`)
               el.counter--;
           }
