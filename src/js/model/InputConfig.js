@@ -37,7 +37,9 @@ class InputConfig extends Model({
     huffTimeout: [Number],
     huffMarkInactive: [Boolean],
     eyetrackingInputs: [Model.Array(Object)],
-    eyetrackingEnabled: [Boolean]
+    eyetrackingEnabled: [Boolean],
+    eyetrackingClicks: [String],
+    
 }) {
     constructor(properties, elementToCopy) {
         properties = modelUtil.setDefaults(properties, elementToCopy, InputConfig);

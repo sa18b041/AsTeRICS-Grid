@@ -115,7 +115,7 @@
             <br>        
             <button @click="showPopUp2 = true" class="buttonPopUp">Enter total counts</button> <br>
             <label class="three columns" for="counterSteps"></label>
-            <input min="0" step="5" placeholder="multiply of 5" class="six columns" type="number" v-model="counterSum">
+            <input min="0" step="5" placeholder="multiply of 5" class="six columns" type="number" v-model="inputConfig.eyetrackingClicks">
             <transition name="fade" appear>
               <div class="modal-overlay-PopUp" v-if="showPopUp2" @click="showPopUp2 = false"></div>
             </transition>
@@ -229,7 +229,7 @@ import GazeCloud from "../../components/GazeCloud.vue";
 import webgazer from "webgazer";
 //import PlottingCanvas from "../../eyetracker/PlottingCanvas.vue"
 //import CalibrationPoints from "../../eyetracker/CalibrationPoints.vue"
-import store from "../../../store/store.js";
+// import store from "../../../store/store.js";
 
 export default {
   // name: 'eyetracker-input-modal',
@@ -356,25 +356,25 @@ export default {
     openHelp() {
       helpService.openHelp();
     },
-                validateInputs() {
-                this.errorInputs = [];
-                this.error = "";
-                if (!this.inputConfig.scanEnabled) {
-                    return true;
-                }
-                if (this.inputConfig.scanInputs.filter(input => input.label === InputConfig.SELECT).length === 0) {
-                    this.errorInputs.push(InputConfig.SELECT);
-                }
-                if (this.inputConfig.scanInputs.filter(input => input.label === InputConfig.NEXT).length === 0 && !this.inputConfig.scanAuto) {
-                    this.errorInputs.push(InputConfig.NEXT);
-                }
+    validateInputs() {
+    this.errorInputs = [];
+    this.error = "";
+      if (!this.inputConfig.scanEnabled) {
+          return true;
+      }
+      if (this.inputConfig.scanInputs.filter(input => input.label === InputConfig.SELECT).length === 0) {
+          this.errorInputs.push(InputConfig.SELECT);
+      }
+      if (this.inputConfig.scanInputs.filter(input => input.label === InputConfig.NEXT).length === 0 && !this.inputConfig.scanAuto) {
+          this.errorInputs.push(InputConfig.NEXT);
+      }
 
-                if (this.errorInputs.length > 0) {
-                    this.error = i18nService.translate('Please specify input modalities // Bitte Eingabemodalitäten definieren');
-                    return false;
-                }
-                return true;
-            },
+      if (this.errorInputs.length > 0) {
+          this.error = i18nService.translate('Please specify input modalities // Bitte Eingabemodalitäten definieren');
+      return false;
+       }
+       return true;
+       },
 
     // validateInputs() {
     //   this.errorInputs = [];
@@ -417,18 +417,18 @@ export default {
     //   );
     //   this.inputChanged();
     // // },
-    //          initTest() {
-    //             setTimeout(() => {
-    //                 this.stopTest();
-    //                 if (this.inputConfig.scanEnabled) {
-    //                     this.scanner = Scanner.getInstanceFromConfig(this.inputConfig, '.area-element-inner', 'active', 'inactive');
-    //                     this.scanner.setSelectionListener(element => {
-    //                         this.selectedTestElement = element;
-    //                     });
-    //                     this.scanner.startScanning();
-    //                 }
-    //             }, 100);
-    //         },
+             initTest() {
+                setTimeout(() => {
+                    this.stopTest();
+                    if (this.inputConfig.scanEnabled) {
+                        this.scanner = Scanner.getInstanceFromConfig(this.inputConfig, '.area-element-inner', 'active', 'inactive');
+                        this.scanner.setSelectionListener(element => {
+                            this.selectedTestElement = element;
+                        });
+                        this.scanner.startScanning();
+                    }
+                }, 100);
+            },
 
     initTest() {
         setTimeout(() => {
@@ -447,33 +447,33 @@ export default {
         }
       }, 100);
     },
-    // stopTest() {
-    //   if (this.scanner) {
-    //     this.scanner.destroy();
-    //   }
-    // },
+    stopTest() {
+      if (this.scanner) {
+        this.scanner.destroy();
+      }
+    },
   },
-  // mounted () {
-  //           let thiz = this;
-  //           inputEventHandler.pauseAll();
-  //           dataService.getMetadata().then(metadata => {
-  //               thiz.metadata = JSON.parse(JSON.stringify(metadata));
-  //               thiz.inputConfig = JSON.parse(JSON.stringify(metadata.inputConfig));
-  //               thiz.touchScanning = !thiz.inputConfig.mouseclickEnabled;
-  //           });
-  //           helpService.setHelpLocation('04_input_options', '#scanning');
-  //       },
+  mounted () {
+            let thiz = this;
+            inputEventHandler.pauseAll();
+            dataService.getMetadata().then(metadata => {
+                thiz.metadata = JSON.parse(JSON.stringify(metadata));
+                thiz.inputConfig = JSON.parse(JSON.stringify(metadata.inputConfig));
+                thiz.touchScanning = !thiz.inputConfig.mouseclickEnabled;
+            });
+            helpService.setHelpLocation('04_input_options', '#scanning');
+        },
 
-  mounted() {
-    let thiz = this;
-    inputEventHandler.pauseAll();
-    dataService.getMetadata().then((metadata) => {
-      thiz.metadata = JSON.parse(JSON.stringify(metadata));
-      thiz.inputConfig = JSON.parse(JSON.stringify(metadata.inputConfig));
+  // mounted() {
+  //   let thiz = this;
+  //   inputEventHandler.pauseAll();
+  //   dataService.getMetadata().then((metadata) => {
+  //     thiz.metadata = JSON.parse(JSON.stringify(metadata));
+  //     thiz.inputConfig = JSON.parse(JSON.stringify(metadata.inputConfig));
       
-    });
-    helpService.setHelpLocation("04_input_options", "#eyetracking-input");
-  },
+  //   });
+  //   helpService.setHelpLocation("04_input_options", "#eyetracking-input");
+  // },
   updated() {
     i18nService.initDomI18n();
   },

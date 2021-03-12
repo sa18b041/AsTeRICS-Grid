@@ -208,7 +208,7 @@ import UnlockModal from "../modals/unlockModal.vue";
 import { printService } from "../../js/service/printService";
 import WebGazer from "../eyetracker/WebGazer.vue";
 import GazeCloud from "../components/GazeCloud.vue";
-import store from "../../store/store.js";
+// import store from "../../store/store.js";
 import { InputConfig } from "../../js/model/InputConfig.js";
 
 let vueApp = null;
@@ -268,7 +268,10 @@ let vueConfig = {
     HeaderIcon,
   },
   methods: {
-  onUpdate(coord){
+    onUpdate(coord){
+      this.eyeTrackerInput.onUpdate(coord);
+    },
+  onUpdate55(coord){
       this.x = coord.x;
       this.y = coord.y;
       const timestamp = Date.now();
@@ -394,7 +397,6 @@ let vueConfig = {
       }
 
       let inputConfig = thiz.metadata.inputConfig;
-      this.activateWebGazer = inputConfig.eyetrackingEnabled;
 
       window.addEventListener("resize", thiz.resizeListener, true);
       $(document).on(constants.EVENT_GRID_RESIZE, thiz.resizeListener);
@@ -463,6 +465,15 @@ let vueConfig = {
       }else{
         thiz.activateWebGazer = false;
       }*/
+      if (inputConfig.eyetrackingEnabled){
+        //console.log(inputConfig.eyetrackingClicks);
+        this.eyeTrackerInput = EyeTracker.getInstanceFromConfig(inputConfig);
+        this.activateWebGazer = true;
+        this.eyeTrackerInput.start();
+      }else{
+        this.eyeTrackerInput.stop();
+        thiz.activateWebGazer = false;
+      }
 
         
       
@@ -674,6 +685,9 @@ let vueConfig = {
         metadata.inputConfig.scanEnabled = urlParamService.isScanningEnabled()
           ? true
           : metadata.inputConfig.scanEnabled;
+          //  metadata.inputConfig.eyetrackingEnabled = urlParamService.isEyeTrackingEnabled()
+          // ? true
+          // : metadata.inputConfig.eyetrackingEnabled;
         metadata.inputConfig.dirEnabled = urlParamService.isDirectionEnabled()
           ? true
           : metadata.inputConfig.dirEnabled;
