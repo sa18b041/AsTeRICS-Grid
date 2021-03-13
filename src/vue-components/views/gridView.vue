@@ -208,8 +208,8 @@ import UnlockModal from "../modals/unlockModal.vue";
 import { printService } from "../../js/service/printService";
 import WebGazer from "../eyetracker/WebGazer.vue";
 import GazeCloud from "../components/GazeCloud.vue";
-// import store from "../../store/store.js";
 import { InputConfig } from "../../js/model/InputConfig.js";
+// import store from "../../store/store.js";
 
 let vueApp = null;
 let gridInstance = null;
@@ -353,6 +353,7 @@ let vueConfig = {
     openModal(modalType) {
       this.showModal = modalType;
       stopInputMethods();
+      console.log("stopInputMethods when open Modaltypes");
     },
     lock() {
       let thiz = this;
@@ -466,14 +467,16 @@ let vueConfig = {
         thiz.activateWebGazer = false;
       }*/
       if (inputConfig.eyetrackingEnabled){
-        console.log(inputConfig.eyetrackingClicks);
-        // console.log()
+        console.log("inputConfig.eyetrackingClicks", inputConfig.eyetrackingClicks);
         this.eyeTrackerInput = EyeTracker.getInstanceFromConfig(inputConfig);
         this.activateWebGazer = true;
         this.eyeTrackerInput.start();
+        //this.eyeTrackerInput.getWebGazer();
+        //speechService.speakLabel(thiz.gridData.id, item.id);
       }else{
         this.eyeTrackerInput.stop();
         thiz.activateWebGazer = false;
+        //this.activateWebGazer = false;
       }
 
         
@@ -526,7 +529,7 @@ let vueConfig = {
         initContextmenu(); //in order to update visualization of active input methods in context menu
         thiz.initInputMethods();
       });
-      //console.log("kkkk");
+      console.log("kkkk");
        //this.activateWebGazer = InputConfig.eyetrackingEnabled
     },
     reload(gridData) {

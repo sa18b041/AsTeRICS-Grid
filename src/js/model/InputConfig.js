@@ -4,6 +4,7 @@ import {Model} from "../externals/objectmodel";
 import {InputEventKey} from "./InputEventKey";
 import {InputEventARE} from "./InputEventARE";
 
+//model will be extended by eyetrackingEnabled and settings
 class InputConfig extends Model({
     id: String,
     modelName: String,
@@ -127,8 +128,8 @@ InputConfig.defaults({
     huffElementCount: 0,
     huffTimeout: 4000,
     huffMarkInactive: true,
-    eyetrackingDuration: "6000",
-    eyetrackingInputs: InputConfig.DEFAULT_EYETRACKER_INPUTS
+   eyetrackingDuration: "6000",
+   eyetrackingInputs: InputConfig.DEFAULT_EYETRACKER_INPUTS
 });
 
 export {InputConfig};

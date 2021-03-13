@@ -51,9 +51,10 @@
 
               <accordion acc-label="Input // Eingabe" acc-open="true" acc-label-type="h2" acc-background-color="white" class="row">
                                 <input-event-list v-model="inputConfig.eyetrackingInputs" :input-labels="[InputConfig.SELECT, InputConfig.NEXT]" :error-inputs="errorInputs" @input="inputChanged"></input-event-list>
-                                <!-- <div class="row">
+          <div class="row">
                                     <button class="twelve columns" data-i18n="" @click="resetInput">Reset to default input configuration // Auf Standard Eingabe-Konfiguration zurücksetzen</button>
                                 </div>
+                                <!-- 
                             </accordion>     
 
                                                
@@ -105,8 +106,8 @@
               </transition>
                 <transition name="slide" appear>
                   <div class="popUp" v-if="showPopUp1">
-                    <h1>Heading of the pop Up</h1>
-                    <p>text of the description of the settings for the clicking algorithm</p>
+                    <h1>Intervall-time by when the counter will be reduced</h1>
+                    <p>Enter a certain period of time (in ms) by when the counter needs to be reduced by 1 step</p>
                     <button class="buttonPopUp" @click="showPopUp1 = false">Close</button>
                   </div>
                </transition>        
@@ -144,6 +145,8 @@
                       
     </div>
                             </accordion>
+
+                            
 
             <!-- <input type="submit" value="Enable Eyetracking // Augensteuerung aktivieren"> -->
 
@@ -210,7 +213,7 @@
 
 
 <script>
-//import webgazer from "webgazer";
+
 import { dataService } from "../../../js/service/data/dataService";
 import { helpService } from "../../../js/service/helpService";
 import { i18nService } from "../../../js/service/i18nService";
@@ -219,7 +222,7 @@ import InputEventList from "../../components/inputEventList.vue";
 import TestArea from "./testArea.vue";
 import "./../../../css/modal.css";
 import { InputConfig } from "../../../js/model/InputConfig";
-// import { Scanner } from "../../../js/input/scanning";
+//import { Scanner } from "../../../js/input/scanning";
 import { inputEventHandler } from "../../../js/input/inputEventHandler";
 import {Hover} from "../../../js/input/hovering";
 import {Clicker} from "../../../js/input/clicking";
@@ -417,18 +420,18 @@ export default {
     //   );
     //   this.inputChanged();
     // // },
-             initTest() {
-                setTimeout(() => {
-                    this.stopTest();
-                    if (this.inputConfig.scanEnabled) {
-                        this.scanner = Scanner.getInstanceFromConfig(this.inputConfig, '.area-element-inner', 'active', 'inactive');
-                        this.scanner.setSelectionListener(element => {
-                            this.selectedTestElement = element;
-                        });
-                        this.scanner.startScanning();
-                    }
-                }, 100);
-            },
+            //  initTest() {
+            //     setTimeout(() => {
+            //         this.stopTest();
+            //         if (this.inputConfig.scanEnabled) {
+            //             this.scanner = Scanner.getInstanceFromConfig(this.inputConfig, '.area-element-inner', 'active', 'inactive');
+            //             this.scanner.setSelectionListener(element => {
+            //                 this.selectedTestElement = element;
+            //             });
+            //             this.scanner.startScanning();
+            //         }
+            //     }, 100);
+            // },
 
     initTest() {
         setTimeout(() => {

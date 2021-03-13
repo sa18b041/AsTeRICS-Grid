@@ -3,12 +3,14 @@ import {inputEventHandler} from "./inputEventHandler";
 import {InputEventKey} from "../model/InputEventKey";
 import {InputConfig} from "../model/InputConfig";
 //import WebGazer from "../../vue-components/eyetracker/WebGazer.vue"
-import webgazer from "webgazer";
+import webgazer from "webgazer"; 
 
+
+//Initializing the Eyetracker class
 let EyeTracker = {
 
 };
-//Aufruf vom Eyetracker - die inputConfig Werte werden übergeben u Position muss richtig sein
+//Aufruf vom Eyetracker - die inputConfig Werte werden übergeben u Position muss richtig sein/params
 EyeTracker.getInstanceFromConfig = function(inputConfig){
     return new EyeTrackerConstructor(inputConfig.eyetrackingClicks, inputConfig.eyetrackingIntervall, inputConfig.eyetrackingDuration);
 }
@@ -21,25 +23,33 @@ function EyeTrackerConstructor(counter,intervall, duration) {
    this.counter = Number(counter);
    this.duration = Number(duration);
    this.intervall = Number(intervall);
+   
    //console.log(this.counter);
    console.log("at the constructor level", this.duration);
 
+    //set variable to initialize webgazer
     this.getWebGazer= function (){
       return webgazer;
   }
 
   this.stop = function(){
+      
       webgazer.showPredictionPoints(false);
       webgazer.showVideo(false) ;
       webgazer.params.showVideoPreview = false; // set to false than the video will not be opened
       webgazer.end();
-      //location.reload();
+      //webgazer.resume(true);
+      //webgazer.stopVideo();
+      //videoStream.getTracks()[0].stop();
+      //webgazer.setCameraConstraints();
+        
+     //location.reload();
 
   }
 
   this.onUpdate = function (coord){
         console.log("coming from eyeTrackerInput.js");
-       console.log(this.intervall, this.duration, this.clicks); //originally worked!! 
+       console.log(this.intervall, this.duration, this.counter); //originally worked!! 
        //console.log(this.counter);
       this.x = coord.x;
       this.y = coord.y;
@@ -102,6 +112,9 @@ function EyeTrackerConstructor(counter,intervall, duration) {
 
   this.start = function(){
       webgazer.begin();
+  }
+  this.speakClicks = function(){
+    
   }
 }
 export {EyeTracker};

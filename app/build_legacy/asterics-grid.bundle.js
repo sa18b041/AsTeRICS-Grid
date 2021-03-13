@@ -37057,7 +37057,8 @@
         return ki.getMetadata()
       })).then((function (n) {
         var i = JSON.parse(JSON.stringify(n || new j));
-        return i.lastOpenedGridId = t.gridId, i.locked = void 0 === i.locked ? _n.isDemoMode() && ki.getCurrentUser() === a.LOCAL_DEMO_USERNAME : i.locked, i.fullscreen = void 0 === i.fullscreen ? _n.isDemoMode() && ki.getCurrentUser() === a.LOCAL_DEMO_USERNAME : i.fullscreen, i.inputConfig.scanEnabled = !!_n.isScanningEnabled() || i.inputConfig.scanEnabled, i.inputConfig.dirEnabled = !!_n.isDirectionEnabled() || i.inputConfig.dirEnabled, i.inputConfig.huffEnabled = !!_n. || i.inputConfig.huffEnabled, ki.saveMetadata(i).then((function () {
+        return i.lastOpenedGridId = t.gridId, i.locked = void 0 === i.locked ? _n.isDemoMode() && ki.getCurrentUser() === a.LOCAL_DEMO_USERNAME : i.locked, i.fullscreen = void 0 === i.fullscreen ? _n.isDemoMode() && ki.getCurrentUser() === a.LOCAL_DEMO_USERNAME : i.fullscreen, i.inputConfig.scanEnabled = !!_n.isScanningEnabled() || i.inputConfig.scanEnabled, i.inputConfig.dirEnabled = !!_n.isDirectionEnabled() || i.inputConfig.dirEnabled, i.inputConfig.huffEnabled = !!_n. 
+        || i.inputConfig.huffEnabled, ki.saveMetadata(i).then((function () {
           i.locked && r()(document).trigger(a.EVENT_SIDEBAR_CLOSE)
         })), e.metadata = i, Promise.resolve()
       })).then((function () {
