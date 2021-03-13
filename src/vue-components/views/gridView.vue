@@ -698,7 +698,7 @@ let vueConfig = {
         metadata.inputConfig.huffEnabled = urlParamService.isHuffmanEnabled()
           ? true
           : metadata.inputConfig.huffEnabled;
-        //metadata.inputConfig.eyetrackingEnabled = urlParamService.isEytrackingEnabled()? true: metadata.inputConfig.eyetrackingEnabled;
+        // metadata.inputConfig.eyetrackingEnabled = urlParamService.isEytrackingEnabled()? true: metadata.inputConfig.eyetrackingEnabled;
         dataService.saveMetadata(metadata).then(() => {
           if (metadata.locked) {
             $(document).trigger(constants.EVENT_SIDEBAR_CLOSE);

@@ -17,6 +17,7 @@ export default {
   //   y: 50
   // },
   methods: {
+    
     clear() {
       if (this.$refs.plot) {
         const { width, height } = this.$refs.plot;

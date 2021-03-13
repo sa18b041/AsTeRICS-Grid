@@ -7,16 +7,15 @@ import webgazer from "webgazer";
 
 
 //Initializing the Eyetracker class
-let EyeTracker = {
+let EyeTracker = {};
 
-};
 //Aufruf vom Eyetracker - die inputConfig Werte werden übergeben u Position muss richtig sein/params
 EyeTracker.getInstanceFromConfig = function(inputConfig){
     return new EyeTrackerConstructor(inputConfig.eyetrackingClicks, inputConfig.eyetrackingIntervall, inputConfig.eyetrackingDuration);
 }
 // Übergabe muss nach diesem Schema laufen - zuerst counter, dann intervall, dann duration
 function EyeTrackerConstructor(counter,intervall, duration) {
-  //var webgazerIstance = webgazer;
+  //var webgazerInstance = webgazer;
    this.x =null;
    this.y =null;
    this.focusedElements = [];
@@ -39,7 +38,7 @@ function EyeTrackerConstructor(counter,intervall, duration) {
       webgazer.params.showVideoPreview = false; // set to false than the video will not be opened
       webgazer.end();
       //webgazer.resume(true);
-      //webgazer.stopVideo();
+      webgazer.stopVideo();
       //videoStream.getTracks()[0].stop();
       //webgazer.setCameraConstraints();
         
@@ -113,6 +112,7 @@ function EyeTrackerConstructor(counter,intervall, duration) {
   this.start = function(){
       webgazer.begin();
   }
+  // include the speech for the eyetracking-click-function
   this.speakClicks = function(){
     
   }

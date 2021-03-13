@@ -51,9 +51,9 @@
 
               <accordion acc-label="Input // Eingabe" acc-open="true" acc-label-type="h2" acc-background-color="white" class="row">
                                 <input-event-list v-model="inputConfig.eyetrackingInputs" :input-labels="[InputConfig.SELECT, InputConfig.NEXT]" :error-inputs="errorInputs" @input="inputChanged"></input-event-list>
-          <div class="row">
+          <!-- <div class="row">
                                     <button class="twelve columns" data-i18n="" @click="resetInput">Reset to default input configuration // Auf Standard Eingabe-Konfiguration zurücksetzen</button>
-                                </div>
+                                </div> -->
                                 <!-- 
                             </accordion>     
 
@@ -226,7 +226,7 @@ import { InputConfig } from "../../../js/model/InputConfig";
 import { inputEventHandler } from "../../../js/input/inputEventHandler";
 import {Hover} from "../../../js/input/hovering";
 import {Clicker} from "../../../js/input/clicking";
-
+import {Eyetracker} from "../../../js/input/eyeTrackerInput";
 import WebGazer from "../../eyetracker/WebGazer.vue";
 import GazeCloud from "../../components/GazeCloud.vue";
 import webgazer from "webgazer";
@@ -237,7 +237,7 @@ import webgazer from "webgazer";
 export default {
   // name: 'eyetracker-input-modal',
   props: [],
-  components: { WebGazer, Accordion, InputEventList, TestArea, GazeCloud },
+  components: { Accordion, InputEventList, TestArea, WebGazer, GazeCloud },
   data: function () {
     return {
       docs: null,
@@ -248,7 +248,8 @@ export default {
       counterSum: null,
       duration: null,
       show: false,
-      inputConfig: true,
+      //inputConfig: true,
+      inputConfig: null,
       hover: null,
       clicker: null,
       // touchScanning: null,
@@ -324,7 +325,7 @@ export default {
       if (doc == !null) {
         var time = Date.now();
         if (time - this.updateTime > 100) {
-          console.log("click");
+          console.log("click out of Modal");
           doc.click();
         }
       } else {
@@ -340,6 +341,9 @@ export default {
       webgazer.end();
       webgazer.showPredictionPoints(false);
       // webgazer.params.showVideoPreview = false;
+      //  webgazer.showVideo(false) ;
+      // webgazer.params.showVideoPreview = false;
+      
       this.$emit("close");
     },
      save() {
@@ -353,59 +357,56 @@ export default {
     },
     cancel() {
       this.$emit("close");
+
+      
       
     },
      
     openHelp() {
       helpService.openHelp();
     },
-    validateInputs() {
-    this.errorInputs = [];
-    this.error = "";
-      if (!this.inputConfig.scanEnabled) {
-          return true;
-      }
-      if (this.inputConfig.scanInputs.filter(input => input.label === InputConfig.SELECT).length === 0) {
-          this.errorInputs.push(InputConfig.SELECT);
-      }
-      if (this.inputConfig.scanInputs.filter(input => input.label === InputConfig.NEXT).length === 0 && !this.inputConfig.scanAuto) {
-          this.errorInputs.push(InputConfig.NEXT);
-      }
-
-      if (this.errorInputs.length > 0) {
-          this.error = i18nService.translate('Please specify input modalities // Bitte Eingabemodalitäten definieren');
-      return false;
-       }
-       return true;
-       },
-
     // validateInputs() {
-    //   this.errorInputs = [];
-    //   this.error = "";
-
-    //   if (this.inputConfig.eyetrackingEnabled) {
-    //     return true;
+    // this.errorInputs = [];
+    // this.error = "";
+    //   if (!this.inputConfig.scanEnabled) {
+    //       return true;
     //   }
-    //   if (this.inputConfig.eyetrackingEnabled.filter(input => input.label === InputConfig.SELECT).length === 0) {
+    //   if (this.inputConfig.scanInputs.filter(input => input.label === InputConfig.SELECT).length === 0) {
     //       this.errorInputs.push(InputConfig.SELECT);
     //   }
-    //   if (this.inputConfig.eyetrackingEnabled.filter(input => input.label === InputConfig.NEXT).length === 0 && !this.inputConfig.scanAuto) {
+    //   if (this.inputConfig.scanInputs.filter(input => input.label === InputConfig.NEXT).length === 0 && !this.inputConfig.scanAuto) {
     //       this.errorInputs.push(InputConfig.NEXT);
     //   }
 
     //   if (this.errorInputs.length > 0) {
     //       this.error = i18nService.translate('Please specify input modalities // Bitte Eingabemodalitäten definieren');
-    //       return false;
-    //   }
-    //   return true;
-    // },
+    //   return false;
+    //    }
+    //    return true;
+    //    },
+
+    validateInputs() {
+      this.errorInputs = [];
+      this.error = "";
+
+      if (this.inputConfig.eyetrackingEnabled) {
+        return true;
+      }
+   
+      if (this.errorInputs.length > 0) {
+          this.error = i18nService.translate('Please specify input modalities // Bitte Eingabemodalitäten definieren');
+          return false;
+      }
+      return true;
+    },
+
     inputChanged() {
       if (this.error) {
         this.validateInputs();
       }
     },
      resetInput() {
-                this.$set(this.inputConfig, 'scanInputs', JSON.parse(JSON.stringify(InputConfig.DEFAULT_SCAN_INPUTS)));
+                this.$set(this.inputConfig, 'eyetrackingInputs', JSON.parse(JSON.stringify(InputConfig.DEFAULT_SCAN_INPUTS)));
                 this.inputChanged();
             },
             changeTouchScanning() {
@@ -456,27 +457,27 @@ export default {
       }
     },
   },
-  mounted () {
-            let thiz = this;
-            inputEventHandler.pauseAll();
-            dataService.getMetadata().then(metadata => {
-                thiz.metadata = JSON.parse(JSON.stringify(metadata));
-                thiz.inputConfig = JSON.parse(JSON.stringify(metadata.inputConfig));
-                thiz.touchScanning = !thiz.inputConfig.mouseclickEnabled;
-            });
-            helpService.setHelpLocation('04_input_options', '#scanning');
-        },
+  // mounted () {
+  //           let thiz = this;
+  //           inputEventHandler.pauseAll();
+  //           dataService.getMetadata().then(metadata => {
+  //               thiz.metadata = JSON.parse(JSON.stringify(metadata));
+  //               thiz.inputConfig = JSON.parse(JSON.stringify(metadata.inputConfig));
+  //               thiz.touchScanning = !thiz.inputConfig.mouseclickEnabled;
+  //           });
+  //           helpService.setHelpLocation('04_input_options', '#scanning');
+  //       },
 
-  // mounted() {
-  //   let thiz = this;
-  //   inputEventHandler.pauseAll();
-  //   dataService.getMetadata().then((metadata) => {
-  //     thiz.metadata = JSON.parse(JSON.stringify(metadata));
-  //     thiz.inputConfig = JSON.parse(JSON.stringify(metadata.inputConfig));
+  mounted() {
+    let thiz = this;
+    inputEventHandler.pauseAll();
+    dataService.getMetadata().then((metadata) => {
+      thiz.metadata = JSON.parse(JSON.stringify(metadata));
+      thiz.inputConfig = JSON.parse(JSON.stringify(metadata.inputConfig));
       
-  //   });
-  //   helpService.setHelpLocation("04_input_options", "#eyetracking-input");
-  // },
+    });
+    helpService.setHelpLocation("04_input_options", "#eyetracking-input");
+  },
   updated() {
     i18nService.initDomI18n();
   },
