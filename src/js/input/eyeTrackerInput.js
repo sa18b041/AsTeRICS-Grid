@@ -20,8 +20,10 @@ function EyeTrackerConstructor(counter,intervall, duration) {
    this.y =null;
    this.focusedElements = [];
    this.counter = Number(counter);
-   this.duration = Number(duration);
    this.intervall = Number(intervall);
+   this.duration = Number(duration);
+  
+   
    
    //console.log(this.counter);
    console.log("at the constructor level", this.duration);
@@ -40,9 +42,9 @@ function EyeTrackerConstructor(counter,intervall, duration) {
       //webgazer.resume(true);
       webgazer.stopVideo();
       //videoStream.getTracks()[0].stop();
-      //webgazer.setCameraConstraints();
+      //webgazer.setCameraConstraints(false);
         
-     //location.reload();
+      //location.reload();
 
   }
 
@@ -97,6 +99,7 @@ function EyeTrackerConstructor(counter,intervall, duration) {
               element.ref.focus();
               if (element.counter > this.counter) {
                   element.ref.click();
+                  //element.ref.speakItems();
                   console.log("Clicked", element.ref);
                   this.focusedElements.forEach((el) => {
                       for(let i=1;i<=el.counter;i++){
@@ -111,10 +114,14 @@ function EyeTrackerConstructor(counter,intervall, duration) {
 
   this.start = function(){
       webgazer.begin();
+      
   }
   // include the speech for the eyetracking-click-function
-  this.speakClicks = function(){
+//   this.speakClicks = function(){
     
-  }
+//   }
 }
+// EyeTrackerConstructor.prototype.speakItems = function() {
+
+// }
 export {EyeTracker};

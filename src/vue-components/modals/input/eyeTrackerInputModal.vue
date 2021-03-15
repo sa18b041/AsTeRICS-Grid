@@ -341,7 +341,7 @@ export default {
       webgazer.end();
       webgazer.showPredictionPoints(false);
       // webgazer.params.showVideoPreview = false;
-      //  webgazer.showVideo(false) ;
+            //  webgazer.showVideo(false) ;
       // webgazer.params.showVideoPreview = false;
       
       this.$emit("close");

@@ -207,7 +207,7 @@ import { imageUtil } from "../../js/util/imageUtil";
 import UnlockModal from "../modals/unlockModal.vue";
 import { printService } from "../../js/service/printService";
 import WebGazer from "../eyetracker/WebGazer.vue";
-import GazeCloud from "../components/GazeCloud.vue";
+//import GazeCloud from "../components/GazeCloud.vue";
 import { InputConfig } from "../../js/model/InputConfig.js";
 // import store from "../../store/store.js";
 
@@ -268,11 +268,12 @@ let vueConfig = {
     HeaderIcon,
   },
   methods: {
-    onUpdate(coord){
-      this.eyeTrackerInput.onUpdate(coord);
-    },
-  onUpdate55(coord){
-      this.x = coord.x;
+    // onUpdate(coord){
+    //   this.eyeTrackerInput.onUpdate(coord);
+    // },
+  onUpdate(coord){
+    this.eyeTrackerInput.onUpdate(coord);
+      /*this.x = coord.x;
       this.y = coord.y;
       const timestamp = Date.now();
       const focusedElement = document.elementFromPoint(this.x, this.y);
@@ -295,10 +296,9 @@ let vueConfig = {
         }else if(timestamp - el.timestamp > 1500 && el.counter >= 1){
           el.ref.classList.remove(`click-duration-${el.counter}`)
           el.counter--;
-        }
+        }*
       });
-      
-      // the new element should be evaluated if it is a new focusedElement or already within the array
+      /he new element should be evaluated if it is a new focusedElement or already within the array
 
       const elementExists = typeof this.focusedElements.find(({ref}) => ref === focusedElement) !== "undefined";
       if (!elementExists) {
@@ -329,7 +329,7 @@ let vueConfig = {
             this.focusedElements = [];
           }
         }
-      }
+      }*/
     },
 
 
@@ -344,7 +344,7 @@ let vueConfig = {
         this.showMe = !this.showMe;
         if(this.showMe){
           //value = $store.state.activateWebGazer = true;
-      //    this.activateWebGazer =inputConfig.eyetrackingEnabled= true;
+        // this.activateWebGazer =inputConfig.eyetrackingEnabled= true;
         } return;
       }
                         
@@ -466,6 +466,17 @@ let vueConfig = {
       }else{
         thiz.activateWebGazer = false;
       }*/
+    // if (inputConfig.eyetrackingEnabled){
+    //     thiz.eyetrackingInput = EyetrackingInput.getInstanceFromConfig(
+    //            inputConfig,
+    //       ".grid-item-content"        
+    //             );
+    //     thiz.eyetrackingInput.start();
+    //   }else{
+    //     this.activateWebGazer = false;
+    //     thiz.activateWebGazer = false;
+    //   }
+
       if (inputConfig.eyetrackingEnabled){
         console.log("inputConfig.eyetrackingClicks", inputConfig.eyetrackingClicks);
         this.eyeTrackerInput = EyeTracker.getInstanceFromConfig(inputConfig);
