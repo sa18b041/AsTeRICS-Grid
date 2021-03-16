@@ -98,8 +98,7 @@ function EyeTrackerConstructor(counter,intervall, duration) {
               element.ref.classList.add(`click-duration-${element.counter}`);
               element.ref.focus();
               if (element.counter > this.counter) {
-                  element.ref.click();
-                  //element.ref.speakItems();
+                  element.ref.firstElementChild.click(); //div has to be clicked
                   console.log("Clicked", element.ref);
                   this.focusedElements.forEach((el) => {
                       for(let i=1;i<=el.counter;i++){

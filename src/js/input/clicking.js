@@ -3,7 +3,7 @@ import { L } from "../util/lquery.js";
 function Clicker(itemSelector) {
     let thiz = this;
     let _itemSelector = itemSelector;
-    let _selectionListener = null;
+    let _selectionListener = null
     let _elements = [];
 
     function onclick(event) {

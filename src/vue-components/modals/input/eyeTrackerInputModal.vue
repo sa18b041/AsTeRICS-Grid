@@ -26,6 +26,7 @@
            <div class="modal-body" v-if="inputConfig">
 
              <div class="row">
+              
                             <span data-i18n="">Webgazer aktivate</span>
                             <a aria-label="Help" href="javascript:;" @click="openHelp()"><i class="fas blue fa-question-circle"></i></a>
                         </div>
@@ -33,8 +34,14 @@
                             <div class="twelve columns">
                                 <input v-focus type="checkbox" id="enableWebgazer" v-model="inputConfig.eyetrackingEnabled"/>
                                 <label class="inline" for="enableWebgazer" data-i18n>Enable Webgazer // Webgazer aktivieren</label>
+                                 <button id='calibration_button' class="spaced small" type="submit">Try Live Demo</button>
+              
+                <button type="button" id='start_calibration' class="btn btn-primary" data-dismiss="modal" @click="restart()">Start Calibration</button>
+              
                             </div>
+                            
                         </div>
+
 
              
                         <!-- <div class="row" >
@@ -280,7 +287,9 @@ export default {
   },
   methods: 
   {
-    
+  restart() {
+  window.open("https://www.w3schools.com");
+},
     // async testGazerOn(){
     //  let dataArr = []
     // if (window && this.webGazerOn && this.test == "WebGazer") {
