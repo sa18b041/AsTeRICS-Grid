@@ -55,13 +55,23 @@
         <span class="hide-mobile" data-i18n>Fullscreen // Vollbild</span>
       </button>
 
-      <button
+      <!-- <button
         id="eyeTrackerOnOff" style="color: blue"
         @click="activateWebGazer = true"
         class="small">
         <i class="fas fa-eye"></i>
         <span class="eye-tracker">ON</span>
+      </button> -->
+
+      <button
+        id="eyeTrackerOnOff" style="color: blue"
+        @click="openCalibration()" 
+        class="small">
+        <i class="fas fa-eye"></i>
+        <span class=" hide-mobile eye-tracker">ON</span>
       </button>
+
+    
 
       <!-- ON-OFF-BUTTON - toggle the Webgazer Start -->
   <button @click="showMeFunction" class ="small">
@@ -131,6 +141,8 @@
       @update="onUpdate"
       :off="false"
     />
+     <!-- <PlottingCanvas />
+    <CalibrationPoints :x="x" :y="y" /> -->
  
     <!-- <WebGazer
       v-if="activateWebGazer === false"
@@ -207,9 +219,12 @@ import { imageUtil } from "../../js/util/imageUtil";
 import UnlockModal from "../modals/unlockModal.vue";
 import { printService } from "../../js/service/printService";
 import WebGazer from "../eyetracker/WebGazer.vue";
+//import webgazer from "webgazer";
 //import GazeCloud from "../components/GazeCloud.vue";
 import { InputConfig } from "../../js/model/InputConfig.js";
 // import store from "../../store/store.js";
+//import PlottingCanvas from "../eyetracker/PlottingCanvas.vue";
+//import CalibrationPoints from "../eyetracker/CalibrationPoints.vue";
 
 let vueApp = null;
 let gridInstance = null;
@@ -263,16 +278,20 @@ let vueConfig = {
     DirectionInputModal,
     EyeTrackerInputModal,
     MouseModal,
-    WebGazer, //GazeCloud,// CalibrationPoints, PlottingCanvas,
+    WebGazer, //CalibrationPoints, PlottingCanvas, //GazeCloud
     ScanningModal,
     HeaderIcon,
   },
   methods: {
+    openCalibration(){
+      // window.open(#);
+    },
     // onUpdate(coord){
     //   this.eyeTrackerInput.onUpdate(coord);
     // },
   onUpdate(coord){
     this.eyeTrackerInput.onUpdate(coord);
+    
       /*this.x = coord.x;
       this.y = coord.y;
       const timestamp = Date.now();
@@ -486,8 +505,9 @@ let vueConfig = {
         //speechService.speakLabel(thiz.gridData.id, item.id);
       }else{
         this.eyeTrackerInput.stop();
-        thiz.activateWebGazer = false;
-        //this.activateWebGazer = false;
+        //thiz.activateWebGazer = false;
+        this.activateWebGazer = false;
+        console.log("stop function called");
       }
 
         

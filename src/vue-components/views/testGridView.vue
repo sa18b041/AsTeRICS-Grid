@@ -110,6 +110,8 @@
         reinitInputMethods();
       "
     />
+    <!-- if show modal is equal to modaltypes of eyetracking then on close destroy show modal and then call 
+    reinitinput methods  -->
     <EyeTrackerInputModal
       v-if="showModal === modalTypes.MODAL_EYETRACKING"
       @close="
@@ -122,12 +124,19 @@
       @unlock="unlock(true)"
       @close="showModal = null"
     />
-
+    <!-- if activateWebgazer is set to true - than the onUpdate function is started
+    parameter off is set to false to start  -->
     <WebGazer
       v-if="activateWebGazer"
       @update="onUpdate"
       :off="false"
     />
+ 
+    <!-- <WebGazer
+      v-if="activateWebGazer === false"
+      @update="onUpdate"
+      :off="true"
+    /> -->
  
 
     <!-- <GazeCloud @update="onUpdate" />  -->
@@ -179,8 +188,7 @@ import { Clicker } from "../../js/input/clicking.js";
 import { HuffmanInput } from "../../js/input/huffmanInput";
 import { DirectionInput } from "../../js/input/directionInput";
 import { SequentialInput } from "../../js/input/sequentialInput";
-import{ Webgazer} from "../../js/input/eyeTrackerInput";
-import { EyeTrackerInput } from "../../js/input/eyeTrackerInput";
+import { EyeTracker } from "../../js/input/eyeTrackerInput";
 
 import HeaderIcon from "../../vue-components/components/headerIcon.vue";
 import { constants } from "../../js/util/constants";
@@ -199,9 +207,10 @@ import { imageUtil } from "../../js/util/imageUtil";
 import UnlockModal from "../modals/unlockModal.vue";
 import { printService } from "../../js/service/printService";
 import WebGazer from "../eyetracker/WebGazer.vue";
-import GazeCloud from "../components/GazeCloud.vue";
-import store from "../../store/store.js";
+//import webgazer from "webgazer";
+//import GazeCloud from "../components/GazeCloud.vue";
 import { InputConfig } from "../../js/model/InputConfig.js";
+// import store from "../../store/store.js";
 
 let vueApp = null;
 let gridInstance = null;
@@ -244,7 +253,6 @@ let vueConfig = {
       unlockCounter: UNLOCK_COUNT,
       value: null,
       showMe: false,
-      webgazer: false,
       activateWebGazer:false,
      
     };
@@ -261,8 +269,12 @@ let vueConfig = {
     HeaderIcon,
   },
   methods: {
- onUpdate(coord){
-      this.x = coord.x;
+    // onUpdate(coord){
+    //   this.eyeTrackerInput.onUpdate(coord);
+    // },
+  onUpdate(coord){
+    this.eyeTrackerInput.onUpdate(coord);
+      /*this.x = coord.x;
       this.y = coord.y;
       const timestamp = Date.now();
       const focusedElement = document.elementFromPoint(this.x, this.y);
@@ -285,10 +297,9 @@ let vueConfig = {
         }else if(timestamp - el.timestamp > 1500 && el.counter >= 1){
           el.ref.classList.remove(`click-duration-${el.counter}`)
           el.counter--;
-        }
+        }*
       });
-      
-      // the new element should be evaluated if it is a new focusedElement or already within the array
+      /he new element should be evaluated if it is a new focusedElement or already within the array
 
       const elementExists = typeof this.focusedElements.find(({ref}) => ref === focusedElement) !== "undefined";
       if (!elementExists) {
@@ -319,7 +330,7 @@ let vueConfig = {
             this.focusedElements = [];
           }
         }
-      }
+      }*/
     },
 
 
@@ -334,7 +345,7 @@ let vueConfig = {
         this.showMe = !this.showMe;
         if(this.showMe){
           //value = $store.state.activateWebGazer = true;
-          this.activateWebGazer =inputConfig.eyetrackingEnabled= true;
+        // this.activateWebGazer =inputConfig.eyetrackingEnabled= true;
         } return;
       }
                         
@@ -343,6 +354,7 @@ let vueConfig = {
     openModal(modalType) {
       this.showModal = modalType;
       stopInputMethods();
+      console.log("stopInputMethods when open Modaltypes");
     },
     lock() {
       let thiz = this;
@@ -387,6 +399,7 @@ let vueConfig = {
       }
 
       let inputConfig = thiz.metadata.inputConfig;
+
       window.addEventListener("resize", thiz.resizeListener, true);
       $(document).on(constants.EVENT_GRID_RESIZE, thiz.resizeListener);
       let selectionListener = (item) => {
@@ -431,38 +444,56 @@ let vueConfig = {
         );
         this.huffmanInput.start();
       }
-      if (inputConfig.eyetrackingEnabled) {
-        this.activateWebGazer = true;
-        this.eyetrackingInput = EyetrackingInput.getInstanceFromConfig(
-          inputConfig,
-          ".grid-item-content",
-          "scanFocus",
-          "scanInactive",
-          selectionListener
-        );
-        this.eyetrackingInput.start();
-      }else{
-        this.activateWebGazer = false;
-      }
-      // if (inputconfig.eyeTrackerInput) {
-      //   thiz.webgazer = Webgazer.getInstanceFromConfig(
+      // if (inputConfig.eyetrackingEnabled) {
+      //   this.activateWebGazer = true;
+      //   this.eyetrackingInput = EyetrackingInput.getInstanceFromConfig(
       //     inputConfig,
-      //     "webgazerActive"
+      //     ".grid-item-content",
+      //     "scanFocus",
+      //     "scanInactive",
+      //     selectionListener
       //   );
-      //   thiz.webgazer.setSelectionListener(setSelectionListener);
-      //   gridInstance.setLayoutChangedStartListener(function() {
-      //     thiz.webgazer.pauseEyetracking();
-      //   });
-      //   gridInstance.setLayoutChangedEndListener(function() {
-      //     thiz.Webgazer.resumeEyetracking();
-      //   });
-
-      //   // thiz.webgazer.startEyetracking();
-      //   thiz.webgazer.onUpdate();
+      //   this.eyetrackingInput.start();
+      // }else{
+      //   this.activateWebGazer = false;
       // }
 
-   
+     /* if (inputConfig.eyetrackingEnabled){
+        thiz.eyetrackingInput = EyetrackingInput.getInstanceFromConfig(
+               inputConfig,
+          ".grid-item-content"        
+                );
+        thiz.eyetrackingInput.start();
+      }else{
+        thiz.activateWebGazer = false;
+      }*/
+    // if (inputConfig.eyetrackingEnabled){
+    //     thiz.eyetrackingInput = EyetrackingInput.getInstanceFromConfig(
+    //            inputConfig,
+    //       ".grid-item-content"        
+    //             );
+    //     thiz.eyetrackingInput.start();
+    //   }else{
+    //     this.activateWebGazer = false;
+    //     thiz.activateWebGazer = false;
+    //   }
 
+      if (inputConfig.eyetrackingEnabled){
+        console.log("inputConfig.eyetrackingClicks", inputConfig.eyetrackingClicks);
+        this.eyeTrackerInput = EyeTracker.getInstanceFromConfig(inputConfig);
+        this.activateWebGazer = true;
+        this.eyeTrackerInput.start();
+        //this.eyeTrackerInput.getWebGazer();
+        //speechService.speakLabel(thiz.gridData.id, item.id);
+      }else{
+        this.eyeTrackerInput.stop();
+        //thiz.activateWebGazer = false;
+        this.activateWebGazer = false;
+        console.log("stop function called");
+      }
+
+        
+      
       if (inputConfig.scanEnabled) {
         thiz.scanner = Scanner.getInstanceFromConfig(
           inputConfig,
@@ -511,7 +542,8 @@ let vueConfig = {
         initContextmenu(); //in order to update visualization of active input methods in context menu
         thiz.initInputMethods();
       });
-      //this.activateWebGazer = InputConfig.eyetrackingEnabled
+      console.log("kkkk");
+       //this.activateWebGazer = InputConfig.eyetrackingEnabled
     },
     reload(gridData) {
       gridInstance.reinit(gridData).then(() => {
@@ -670,13 +702,16 @@ let vueConfig = {
         metadata.inputConfig.scanEnabled = urlParamService.isScanningEnabled()
           ? true
           : metadata.inputConfig.scanEnabled;
+          //  metadata.inputConfig.eyetrackingEnabled = urlParamService.isEyeTrackingEnabled()
+          // ? true
+          // : metadata.inputConfig.eyetrackingEnabled;
         metadata.inputConfig.dirEnabled = urlParamService.isDirectionEnabled()
           ? true
           : metadata.inputConfig.dirEnabled;
         metadata.inputConfig.huffEnabled = urlParamService.isHuffmanEnabled()
           ? true
           : metadata.inputConfig.huffEnabled;
-        //metadata.inputConfig.eyetrackingEnabled = urlParamService.isEytrackingEnabled()? true: metadata.inputConfig.eyetrackingEnabled;
+        // metadata.inputConfig.eyetrackingEnabled = urlParamService.isEytrackingEnabled()? true: metadata.inputConfig.eyetrackingEnabled;
         dataService.saveMetadata(metadata).then(() => {
           if (metadata.locked) {
             $(document).trigger(constants.EVENT_SIDEBAR_CLOSE);
@@ -713,7 +748,7 @@ let vueConfig = {
   },
   updated() {
     i18nService.initDomI18n();
-    this.activateWebGazer =inputConfig.eyetrackingEnabled
+   // this.webGazerStart =  inputConfig.eyetrackingEnabled;
   },
   beforeDestroy() {
     $(document).off(constants.EVENT_DB_PULL_UPDATED, this.reloadFn);
@@ -740,8 +775,7 @@ function stopInputMethods() {
   if (vueApp && vueApp.directionInput) vueApp.directionInput.destroy();
   if (vueApp && vueApp.huffmanInput) vueApp.huffmanInput.destroy();
   if (vueApp && vueApp.seqInput) vueApp.seqInput.destroy();
-  if (vueApp && vueApp.webgazer) vueApp.webgazer.destroy();
-  if (vueApp && vueApp.eyetrackingInput) vueApp.eyetrackingInput.destroy();
+  if (vueApp && vueApp.eyeTracker) vueApp.eyeTracker.destroy();
 }
 
 function initGrid(gridId) {

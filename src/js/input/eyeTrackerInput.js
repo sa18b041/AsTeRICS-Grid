@@ -36,11 +36,12 @@ function EyeTrackerConstructor(counter,intervall, duration) {
   this.stop = function(){
       
       webgazer.showPredictionPoints(false);
-      webgazer.showVideo(false) ;
+      webgazer.showFaceOverlay(false);
+      //webgazer.showVideo(false) ;
       webgazer.params.showVideoPreview = false; // set to false than the video will not be opened
       webgazer.end();
       //webgazer.resume(true);
-      webgazer.stopVideo();
+      webgazer.stopVideo(true);
       //videoStream.getTracks()[0].stop();
       //webgazer.setCameraConstraints(false);
         
@@ -115,12 +116,7 @@ function EyeTrackerConstructor(counter,intervall, duration) {
       webgazer.begin();
       
   }
-  // include the speech for the eyetracking-click-function
-//   this.speakClicks = function(){
-    
-//   }
-}
-// EyeTrackerConstructor.prototype.speakItems = function() {
 
-// }
+}
+
 export {EyeTracker};

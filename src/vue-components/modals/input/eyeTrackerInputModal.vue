@@ -5,6 +5,10 @@
   <div class="modal">
     <div class="modal-mask">
       <div class="modal-wrapper">
+
+    <WebGazer @update="onUpdate" :off="false"/>
+    <PlottingCanvas />
+    <CalibrationPoints :x="x" :y="y" />
         <div
           class="modal-container"
           @keydown.27="cancel()"
@@ -237,14 +241,14 @@ import {Eyetracker} from "../../../js/input/eyeTrackerInput";
 import WebGazer from "../../eyetracker/WebGazer.vue";
 import GazeCloud from "../../components/GazeCloud.vue";
 import webgazer from "webgazer";
-//import PlottingCanvas from "../../eyetracker/PlottingCanvas.vue"
-//import CalibrationPoints from "../../eyetracker/CalibrationPoints.vue"
+import PlottingCanvas from "../../eyetracker/PlottingCanvas.vue";
+import CalibrationPoints from "../../eyetracker/CalibrationPoints.vue";
 // import store from "../../../store/store.js";
 
 export default {
   // name: 'eyetracker-input-modal',
   props: [],
-  components: { Accordion, InputEventList, TestArea, WebGazer, GazeCloud },
+  components: { Accordion, InputEventList, TestArea, WebGazer, CalibrationPoints, PlottingCanvas, GazeCloud },
   data: function () {
     return {
       docs: null,
@@ -322,6 +326,12 @@ export default {
     //     this.webgazer.resume();
     // }
     // },
+    
+    onUpdate(coord) {
+      this.x = coord.x;
+      this.y = coord.y;
+     
+    },
     onUpdate1(coord) {
       this.x = coord.x;
       this.y = coord.y;
@@ -349,7 +359,8 @@ export default {
     delete1() {
       webgazer.end();
       webgazer.showPredictionPoints(false);
-      // webgazer.params.showVideoPreview = false;
+      
+      //webgazer.params.showVideoPreview = false;
             //  webgazer.showVideo(false) ;
       // webgazer.params.showVideoPreview = false;
       

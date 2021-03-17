@@ -43,10 +43,10 @@ export default {
       webgazer.showPredictionPoints(true);
     }
     
-  }//,
-  // beforeDestroy() {
-  //   webgazer.end();
-  // },
+   }//,
+  //  beforeDestroy() {
+  //    webgazer.end();
+  //  },
 };
 </script>
 
