@@ -6,9 +6,7 @@
     <div class="modal-mask">
       <div class="modal-wrapper">
 
-    <WebGazer @update="onUpdate" :off="false"/>
-    <PlottingCanvas />
-    <CalibrationPoints :x="x" :y="y" />
+   
         <div
           class="modal-container"
           @keydown.27="cancel()"
@@ -41,6 +39,7 @@
                                  <button id='calibration_button' class="spaced small" type="submit">Try Live Demo</button>
               
                 <button type="button" id='start_calibration' class="btn btn-primary" data-dismiss="modal" @click="restart()">Start Calibration</button>
+                
               
                             </div>
                             
@@ -218,6 +217,12 @@
                 </div>
             </div>
         </div>
+        <div class="modal">
+ <WebGazer @update="onUpdate" :off="true"/>
+    <PlottingCanvas />
+    <CalibrationPoints :x="x" :y="y" />
+        </div>
+        
     </div>
 </template>
 
@@ -291,7 +296,9 @@ export default {
   },
   methods: 
   {
+    
   restart() {
+    
   window.open("https://www.w3schools.com");
 },
     // async testGazerOn(){

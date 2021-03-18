@@ -13,6 +13,7 @@ import RegisterView from '../vue-components/views/registerView.vue'
 import AddOfflineView from '../vue-components/views/addOfflineView.vue'
 import WelcomeView from '../vue-components/views/welcomeView.vue'
 import AboutView from '../vue-components/views/aboutView.vue'
+import CalibrationView from '../vue-components/views/calibrationView.vue'
 import DictionariesView from '../vue-components/views/dictionariesView.vue'
 import SettingsView from '../vue-components/views/settingsView.vue'
 import {databaseService} from "./service/data/databaseService";
@@ -20,7 +21,7 @@ import {localStorageService} from "./service/data/localStorageService";
 import {MainVue} from "./vue/mainVue";
 import {youtubeService} from "./service/youtubeService";
 
-let NO_DB_VIEWS = ['#login', '#register', '#welcome', '#add', '#about'];
+let NO_DB_VIEWS = ['#login', '#register', '#welcome', '#add', '#about','#calibration'];
 
 let Router = {};
 let navigoInstance = null;
@@ -98,6 +99,10 @@ Router.init = function (injectIdParam, initialHash) {
             'about': function () {
                 helpService.setHelpLocationIndex();
                 loadVueView(AboutView);
+            },
+            'calibration': function() {
+                helpService.etHelpLocationIndex();
+                loadVueView(CalibrationView);
             },
             'dictionaries': function () {
                 helpService.setHelpLocation('02_navigation', '#manage-dictionaries-view');

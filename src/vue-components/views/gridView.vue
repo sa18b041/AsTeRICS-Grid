@@ -70,7 +70,7 @@
         <i class="fas fa-eye"></i>
         <span class=" hide-mobile eye-tracker">ON</span>
       </button>
-
+    <a href ="/#calibration"><button>Calibration now!</button></a>
     
 
       <!-- ON-OFF-BUTTON - toggle the Webgazer Start -->
@@ -284,7 +284,7 @@ let vueConfig = {
   },
   methods: {
     openCalibration(){
-      // window.open(#);
+    //window.open(#);
     },
     // onUpdate(coord){
     //   this.eyeTrackerInput.onUpdate(coord);
