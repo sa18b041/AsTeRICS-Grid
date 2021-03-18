@@ -107,7 +107,7 @@
                       </h1>
                       <p>
                         Enter a certain period of time (in ms) by when the
-                        counter needs to be reduced by 1 step
+                        counter needs to be reduced by 1 counter step
                       </p>
                       <button class="buttonPopUp" @click="showPopUp1 = false">
                         Close
@@ -175,8 +175,8 @@
                     <div class="popUp" v-if="showPopUp3">
                       <h1>Duration on the grid element</h1>
                       <p>
-                        it depends how long the user should be on the grid
-                        element before it is finally clicked
+                        This duration time tells you by when the counter is set
+                        to 0.
                       </p>
                       <button class="buttonPopUp" @click="showPopUp3 = false">
                         Close

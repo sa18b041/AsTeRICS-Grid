@@ -1,6 +1,7 @@
 <template>
   <div>
     <a href="/#main" style="position: absolute;top:5px;left:50%;z-index:5;"
+
       >BACK</a
     >
     <WebGazer @update="onUpdate" :off="false" />
@@ -26,6 +27,9 @@ export default {
     onUpdate(coord) {
       this.x = coord.x;
       this.y = coord.y;
+    },
+    stopCalibration(){
+         webgazer.showPredictionPoints(false);
     },
   },
 };
