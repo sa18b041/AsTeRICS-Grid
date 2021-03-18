@@ -1,12 +1,12 @@
 <template>
-    <div>
-    <a href="/#main" style = "position: absolute; z-index: 5; top: 5px; left: 50%;" >BACK</a>
-    <WebGazer @update="onUpdate" :off="false"/>
-  <PlottingCanvas />
-  <CalibrationPoints :x="x" :y="y" />
-    
-    </div>
-
+  <div>
+    <a href="/#main" style="position: absolute;top:5px;left:50%;z-index:5;"
+      >BACK</a
+    >
+    <WebGazer @update="onUpdate" :off="false" />
+    <PlottingCanvas />
+    <CalibrationPoints :x="x" :y="y" />
+  </div>
 </template>
 
 <script>
@@ -14,27 +14,19 @@ import WebGazer from "../eyetracker/WebGazer.vue";
 import PlottingCanvas from "../eyetracker/PlottingCanvas.vue";
 import CalibrationPoints from "../eyetracker/CalibrationPoints.vue";
 
-
 export default {
-  name: "App",
-  components: { WebGazer, PlottingCanvas, CalibrationPoints },
+  components: { WebGazer, CalibrationPoints, PlottingCanvas },
   data() {
     return {
-      x: 0, //passing data with props - data first included here in the App.vue and then passed via
-      y: 0, // data binding in the template above (example Calibration points) with :
-
+      x: 0,
+      y: 0,
     };
   },
   methods: {
-   
-   
     onUpdate(coord) {
       this.x = coord.x;
       this.y = coord.y;
-      
     },
   },
 };
-    
-
 </script>

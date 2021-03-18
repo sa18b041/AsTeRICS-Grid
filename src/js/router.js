@@ -21,7 +21,7 @@ import {localStorageService} from "./service/data/localStorageService";
 import {MainVue} from "./vue/mainVue";
 import {youtubeService} from "./service/youtubeService";
 
-let NO_DB_VIEWS = ['#login', '#register', '#welcome', '#add', '#about','#calibration'];
+let NO_DB_VIEWS = ['#login', '#register', '#welcome', '#add', '#about', '#calibration'];
 
 let Router = {};
 let navigoInstance = null;
@@ -100,8 +100,8 @@ Router.init = function (injectIdParam, initialHash) {
                 helpService.setHelpLocationIndex();
                 loadVueView(AboutView);
             },
-            'calibration': function() {
-                helpService.etHelpLocationIndex();
+            'calibration': function () {
+                helpService.setHelpLocationIndex();
                 loadVueView(CalibrationView);
             },
             'dictionaries': function () {
@@ -175,6 +175,7 @@ Router.toAddOffline = function () {
 Router.toAbout = function () {
     setHash('#about');
 };
+
 Router.toCalibration = function () {
     setHash('#calibration');
 };
