@@ -22,8 +22,7 @@ export default {
     return {
       x: 0, //passing data with props - data first included here in the App.vue and then passed via
       y: 0, // data binding in the template above (example Calibration points) with :
-      // id: ''
-      // gridBoxes: ['first','second','third'], //############ change later 
+
     };
   },
   methods: {
@@ -32,12 +31,7 @@ export default {
     onUpdate(coord) {
       this.x = coord.x;
       this.y = coord.y;
-      // console.log("###########################")
-      // console.log("X :"+this.x)
-      // console.log("Y :"+this.y)
-      // console.log("coord X :"+coord.x)
-      // console.log("coord Y :"+coord.y)
-      // console.log(this.id);
+      
     },
   },
 };
