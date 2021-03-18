@@ -70,7 +70,8 @@
         <i class="fas fa-eye"></i>
         <span class=" hide-mobile eye-tracker">ON</span>
       </button>
-    <a href ="/#calibration"><button>Calibration now!</button></a>
+      
+    <a href ="/#calibration" style="color: blue"><button>Calibration now!</button></a>
     
 
       <!-- ON-OFF-BUTTON - toggle the Webgazer Start -->

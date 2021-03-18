@@ -62,6 +62,7 @@
         <i class="fas fa-eye"></i>
         <span class="eye-tracker">ON</span>
       </button>
+      
 
       <!-- ON-OFF-BUTTON - toggle the Webgazer Start -->
   <button @click="showMeFunction" class ="small">
