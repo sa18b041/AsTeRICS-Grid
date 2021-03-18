@@ -36,10 +36,10 @@
                             <div class="twelve columns">
                                 <input v-focus type="checkbox" id="enableWebgazer" v-model="inputConfig.eyetrackingEnabled"/>
                                 <label class="inline" for="enableWebgazer" data-i18n>Enable Webgazer // Webgazer aktivieren</label>
-                                 <button id='calibration_button' class="spaced small" type="submit">Try Live Demo</button>
+                                 <!-- <button id='calibration_button' class="spaced small" type="submit">Try Live Demo</button>
               
                 <button type="button" id='start_calibration' class="btn btn-primary" data-dismiss="modal" @click="restart()">Start Calibration</button>
-                
+                 -->
               
                             </div>
                             
@@ -217,13 +217,10 @@
                 </div>
             </div>
         </div>
-        <div class="modal">
- <WebGazer @update="onUpdate" :off="true"/>
-    <PlottingCanvas />
-    <CalibrationPoints :x="x" :y="y" />
+        
         </div>
         
-    </div>
+    
 </template>
 
 
@@ -245,15 +242,15 @@ import {Clicker} from "../../../js/input/clicking";
 import {Eyetracker} from "../../../js/input/eyeTrackerInput";
 import WebGazer from "../../eyetracker/WebGazer.vue";
 import GazeCloud from "../../components/GazeCloud.vue";
-import webgazer from "webgazer";
-import PlottingCanvas from "../../eyetracker/PlottingCanvas.vue";
-import CalibrationPoints from "../../eyetracker/CalibrationPoints.vue";
+// import webgazer from "webgazer";
+// import PlottingCanvas from "../../eyetracker/PlottingCanvas.vue";
+// import CalibrationPoints from "../../eyetracker/CalibrationPoints.vue";
 // import store from "../../../store/store.js";
 
 export default {
   // name: 'eyetracker-input-modal',
   props: [],
-  components: { Accordion, InputEventList, TestArea, WebGazer, CalibrationPoints, PlottingCanvas, GazeCloud },
+  components: { Accordion, InputEventList, TestArea, WebGazer, GazeCloud },
   data: function () {
     return {
       docs: null,

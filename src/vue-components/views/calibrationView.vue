@@ -1,6 +1,6 @@
 <template>
     <div>
-    <a href="#/main" style = "position: absolute; z-index: 5; top: 5px; left: 50%;" >BACK</a>
+    <a href="/#main" style = "position: absolute; z-index: 5; top: 5px; left: 50%;" >BACK</a>
     <WebGazer @update="onUpdate" :off="false"/>
   <PlottingCanvas />
   <CalibrationPoints :x="x" :y="y" />

@@ -62,16 +62,16 @@
         <i class="fas fa-eye"></i>
         <span class="eye-tracker">ON</span>
       </button> -->
-
+<!-- 
       <button
         id="eyeTrackerOnOff" style="color: blue"
         @click="openCalibration()" 
         class="small">
         <i class="fas fa-eye"></i>
         <span class=" hide-mobile eye-tracker">ON</span>
-      </button>
-      
-    <a href ="/#calibration" style="color: blue"><button>Calibration now!</button></a>
+      </button> -->
+
+    <a href="/#calibration"><button style="color: blue">Calibration!</button></a>
     
 
       <!-- ON-OFF-BUTTON - toggle the Webgazer Start -->

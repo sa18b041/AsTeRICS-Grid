@@ -175,6 +175,9 @@ Router.toAddOffline = function () {
 Router.toAbout = function () {
     setHash('#about');
 };
+Router.toCalibration = function () {
+    setHash('#calibration');
+};
 
 Router.toLogin = function () {
     setHash('#login');
