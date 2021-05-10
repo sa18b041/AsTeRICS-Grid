@@ -40,15 +40,15 @@
                 <label class="inline" for="enableWebgazer" data-i18n
                   >Enable Webgazer // Webgazer aktivieren</label
                 >
-                <button
+                <!-- <button
                   id="calibration_button"
                   class="spaced small"
                   type="submit"
                 >
                   Try Live Demo
-                </button>
+                </button> -->
 
-                <button
+                <!-- <button
                   type="button"
                   id="start_calibration"
                   class="btn btn-primary"
@@ -56,7 +56,7 @@
                   @click="restart()"
                 >
                   Start Calibration
-                </button>
+                </button> -->
               </div>
             </div>
 

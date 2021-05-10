@@ -330,22 +330,7 @@ let vueConfig = {
         );
         this.huffmanInput.start();
       }
-      if (inputConfig.eyetrackingEnabled) {
-        console.log(
-          "inputConfig.eyetrackingClicks",
-          inputConfig.eyetrackingClicks
-        );
-        this.eyeTrackerInput = EyeTracker.getInstanceFromConfig(inputConfig);
-        this.activateWebGazer = true;
-        this.eyeTrackerInput.start();
-        //this.eyeTrackerInput.getWebGazer();
-        //speechService.speakLabel(thiz.gridData.id, item.id);
-      } else {
-        this.eyeTrackerInput.stop();
-        //thiz.activateWebGazer = false;
-        this.activateWebGazer = false;
-        console.log("stop function called");
-      }
+     
 
       if (inputConfig.scanEnabled) {
         thiz.scanner = Scanner.getInstanceFromConfig(
@@ -382,15 +367,31 @@ let vueConfig = {
         thiz.clicker.setSelectionListener(selectionListener);
         thiz.clicker.startClickcontrol();
       }
+       if (inputConfig.eyetrackingEnabled) {
+        console.log(
+          "inputConfig.eyetrackingClicks",
+          inputConfig.eyetrackingClicks
+        );
+        this.eyeTrackerInput = EyeTracker.getInstanceFromConfig(inputConfig);
+        this.activateWebGazer = true;
+        this.eyeTrackerInput.start();
+        //this.eyeTrackerInput.getWebGazer();
+        //speechService.speakLabel(thiz.gridData.id, item.id);
+      } else {
+        this.eyeTrackerInput.stop();
+        //thiz.activateWebGazer = false;
+        this.activateWebGazer = false;
+        console.log("stop function called");
+      }
     },
     reinitInputMethods() {
       let thiz = this;
       stopInputMethods();
-      dataService.getMetadata().then((newMetadata) => {
-        thiz.metadata = JSON.parse(JSON.stringify(newMetadata));
-        initContextmenu(); //in order to update visualization of active input methods in context menu
-        thiz.initInputMethods();
-      });
+      dataService.getMetadata().then(function(newMetadata) {
+          thiz.metadata=JSON.parse(JSON.stringify(newMetadata));
+          initContextmenu(); //in order to update visualization of active input methods in context menu
+          thiz.initInputMethods();
+        });
       console.log("kkkk");
       //this.activateWebGazer = InputConfig.eyetrackingEnabled
     },
@@ -761,5 +762,8 @@ export default vueConfig;
 }
 .click-duration-5 {
   background-color: #f50c0c;
+}
+.click-duration-10 {
+  background-color:chartreuse
 }
 </style>

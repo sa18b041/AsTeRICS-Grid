@@ -37,22 +37,23 @@ function EyeTrackerConstructor(counter,intervall, duration) {
       
       webgazer.showPredictionPoints(false);
       webgazer.showFaceOverlay(false);
-      //webgazer.showVideo(false) ;
-      webgazer.params.showVideoPreview = false; // set to false than the video will not be opened
+      webgazer.showVideo(false) ;
+      webgazer.showFaceFeedbackBox(false);
+      //webgazer.params.showVideoPreview = false; // set to false than the video will not be opened
       webgazer.end();
       //webgazer.resume(true);
-      webgazer.stopVideo(true);
+      //webgazer.stopVideo(true);
       //videoStream.getTracks()[0].stop();
       //webgazer.setCameraConstraints(false);
         
-      location.reload();
+      //location.reload();
 
   }
 
   this.onUpdate = function (coord){
-        console.log("coming from eyeTrackerInput.js");
-       console.log(this.intervall, this.duration, this.counter); //originally worked!! 
-       //console.log(this.counter);
+    console.log("coming from eyeTrackerInput.js");
+       console.log(this.intervall, this.duration, this.counter); 
+
       this.x = coord.x;
       this.y = coord.y;
       const timestamp = Date.now();

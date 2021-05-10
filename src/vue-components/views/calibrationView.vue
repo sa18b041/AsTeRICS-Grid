@@ -4,7 +4,7 @@
 
       >BACK</a
     >
-    <WebGazer @update="onUpdate" :off="false" />
+    <!--WebGazer @update="onUpdate" :off="false" /-->
     <PlottingCanvas />
     <CalibrationPoints :x="x" :y="y" />
   </div>
@@ -34,3 +34,9 @@ export default {
   },
 };
 </script>
+
+<style>
+/* div.holy-grail-sidebar-1 {
+  display: none;
+} */
+</style>
