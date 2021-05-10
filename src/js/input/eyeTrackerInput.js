@@ -46,7 +46,7 @@ function EyeTrackerConstructor(counter,intervall, duration) {
       //videoStream.getTracks()[0].stop();
       //webgazer.setCameraConstraints(false);
         
-      //location.reload();
+      location.reload();
 
   }
 

@@ -378,7 +378,10 @@ let vueConfig = {
         //this.eyeTrackerInput.getWebGazer();
         //speechService.speakLabel(thiz.gridData.id, item.id);
       } else {
-        this.eyeTrackerInput.stop();
+            if(this.eyeTrackerInput != null){
+            this.eyeTrackerInput.stop();
+        }
+        //this.eyeTrackerInput.stop();
         //thiz.activateWebGazer = false;
         this.activateWebGazer = false;
         console.log("stop function called");
