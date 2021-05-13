@@ -57,41 +57,29 @@ function EyeTrackerConstructor(counter,intervall, duration) {
       this.x = coord.x;
       this.y = coord.y;
       const timestamp = Date.now();
-      let focusedElement = document.elementFromPoint(this.x, this.y);
-
-      if (focusedElement !== null){
-          focusedElement = focusedElement.closest(".item");
-        
-      }
-      if (focusedElement == null){
-          return;
-      }
-    //   let container = document.getElementById("grid-container");
-    //   let list = container.children[0];
-    //   let lists = list.children;
-    //   let listArray = Array.from(lists);
-  
-    //evaluate the time to reduce or delete counter
-  this.focusedElements.forEach((el) => {
-    if(timestamp - el.timestamp > this.duration){
-        for(let i=1;i<=el.counter;i++){
-            el.ref.classList.remove(`click-duration-`+i)
-        }
-        el.counter = 0;
-    }else if(timestamp - el.timestamp > this.intervall && el.counter >= 1 && focusedElement != el.ref){
-        el.ref.classList.remove(`click-duration-${el.counter}`)
-        el.counter--;
-    }
-});
-
-
-
+      const focusedElement = document.elementFromPoint(this.x, this.y);
+      let container = document.getElementById("grid-container");
+      let list = container.children[0];
+      let lists = list.children;
+      let listArray = Array.from(lists);
       let containItems = listArray.filter((e) => e.classList.contains("item"));
       //elements not found or does not contain item within the grid-element
       if (focusedElement == null || !containItems.includes(focusedElement)) {
           return;
       }
-    
+      //evaluate the time to reduce or delete counter
+      this.focusedElements.forEach((el) => {
+          if(timestamp - el.timestamp > this.duration){
+              for(let i=1;i<=el.counter;i++){
+                  el.ref.classList.remove(`click-duration-`+i)
+              }
+              el.counter = 0;
+          }else if(timestamp - el.timestamp > this.intervall && el.counter >= 1){
+              el.ref.classList.remove(`click-duration-${el.counter}`)
+              el.counter--;
+          }
+      });
+
       // the new element should be evaluated if it is a new focusedElement or already within the array
       const elementExists = typeof this.focusedElements.find(({ref}) => ref === focusedElement) !== "undefined";
       if (!elementExists) {
