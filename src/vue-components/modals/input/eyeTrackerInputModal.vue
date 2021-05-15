@@ -221,7 +221,7 @@ import { InputConfig } from "../../../js/model/InputConfig";
 import { inputEventHandler } from "../../../js/input/inputEventHandler";
 import { Hover } from "../../../js/input/hovering";
 import { Clicker } from "../../../js/input/clicking";
-import { Eyetracker } from "../../../js/input/eyeTrackerInput";
+import { Eyetracker } from "../../../js/input/eyeTrackerInput_old";
 import WebGazer from "../../eyetracker/WebGazer.vue";
 import GazeCloud from "../../components/GazeCloud.vue";
 //import webgazer from "webgazer";

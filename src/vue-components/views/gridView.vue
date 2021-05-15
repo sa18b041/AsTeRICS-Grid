@@ -159,7 +159,7 @@ import { Clicker } from "../../js/input/clicking.js";
 import { HuffmanInput } from "../../js/input/huffmanInput";
 import { DirectionInput } from "../../js/input/directionInput";
 import { SequentialInput } from "../../js/input/sequentialInput";
-import { EyeTracker } from "../../js/input/eyeTrackerInput";
+import { EyeTracker } from "../../js/input/eyeTrackerInput_old";
 import HeaderIcon from "../../vue-components/components/headerIcon.vue";
 import { constants } from "../../js/util/constants";
 import { GridData } from "../../js/model/GridData";
