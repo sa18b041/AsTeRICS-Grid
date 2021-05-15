@@ -22,6 +22,7 @@ function EyeTrackerConstructor(counter,intervall, duration) {
    this.counter = Number(counter);
    this.intervall = Number(intervall);
    this.duration = Number(duration);
+   this.stopGettingPoint = false;
   
    
    
@@ -37,12 +38,11 @@ function EyeTrackerConstructor(counter,intervall, duration) {
       
       webgazer.showPredictionPoints(false);
       webgazer.showFaceOverlay(false);
-      webgazer.showVideo(false) ;
-      webgazer.showFaceFeedbackBox(false);
-      //webgazer.params.showVideoPreview = false; // set to false than the video will not be opened
+      //webgazer.showVideo(false) ;
+      webgazer.params.showVideoPreview = false; // set to false than the video will not be opened
       webgazer.end();
       //webgazer.resume(true);
-      //webgazer.stopVideo(true);
+      webgazer.stopVideo(true);
       //videoStream.getTracks()[0].stop();
       //webgazer.setCameraConstraints(false);
         
@@ -50,22 +50,30 @@ function EyeTrackerConstructor(counter,intervall, duration) {
 
   }
 
-  this.onUpdate = function (coord){
-    console.log("coming from eyeTrackerInput.js");
-       console.log(this.intervall, this.duration, this.counter); 
+  this.allElementsFromPoint = function (x, y) {
+    var elements = document.elementsFromPoint(x, y);
+    for (var k = 0; k < elements.length; k++) {
+        if(elements[k].classList.contains("item")){
+            return elements[k];
+        }
+    }
+    return null;
+}
 
+  this.onUpdate = function (coord){
+    //console.log("coming from eyeTrackerInput.js");
+       //console.log(this.intervall, this.duration, this.counter); //originally worked!! 
+       //console.log(this.counter);
       this.x = coord.x;
       this.y = coord.y;
       const timestamp = Date.now();
-      const focusedElement = document.elementFromPoint(this.x, this.y);
-      let container = document.getElementById("grid-container");
-      let list = container.children[0];
-      let lists = list.children;
-      let listArray = Array.from(lists);
-      let containItems = listArray.filter((e) => e.classList.contains("item"));
+      const focusedElement = this.allElementsFromPoint(this.x, this.y);
       //elements not found or does not contain item within the grid-element
-      if (focusedElement == null || !containItems.includes(focusedElement)) {
+      if (focusedElement == null) {
           return;
+      }
+      if(focusedElement.querySelector('.text-container') !== null){
+        console.log(focusedElement.querySelector('.text-container').innerHTML);
       }
       //evaluate the time to reduce or delete counter
       this.focusedElements.forEach((el) => {
@@ -94,7 +102,7 @@ function EyeTrackerConstructor(counter,intervall, duration) {
           const element = this.focusedElements.find(
               ({ref}) => ref === focusedElement
           );
-          if (timestamp - element.timestamp > 100) {
+          //if (timestamp - element.timestamp > 100) {
               element.timestamp = timestamp;
               element.counter++;
               element.ref.classList.add(`click-duration-${element.counter}`);
@@ -108,10 +116,10 @@ function EyeTrackerConstructor(counter,intervall, duration) {
                       }
                   });
                   this.focusedElements = [];
-              }
+            //  }
           }
       }
-  };
+  }
 
   this.start = function(){
       webgazer.begin();

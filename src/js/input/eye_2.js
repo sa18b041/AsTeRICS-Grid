@@ -51,8 +51,8 @@ function EyeTrackerConstructor(counter,intervall, duration) {
   }
 
   this.onUpdate = function (coord){
-    console.log("coming from eyeTrackerInput.js");
-       console.log(this.intervall, this.duration, this.counter); 
+    //console.log("coming from eyeTrackerInput.js");
+       //console.log(this.intervall, this.duration, this.counter); 
 
       this.x = coord.x;
       this.y = coord.y;

@@ -34,87 +34,62 @@ function EyeTrackerConstructor(counter,intervall, duration) {
   }
 
   this.stop = function(){
-      
+      this.focusedElements = []; 
       webgazer.showPredictionPoints(false);
       webgazer.showFaceOverlay(false);
-      webgazer.showVideo(false) ;
-      webgazer.showFaceFeedbackBox(false);
-      //webgazer.params.showVideoPreview = false; // set to false than the video will not be opened
+      //webgazer.showVideo(false) ;
+      webgazer.params.showVideoPreview = false; // set to false than the video will not be opened
       webgazer.end();
       //webgazer.resume(true);
-      //webgazer.stopVideo(true);
+      webgazer.stopVideo(true);
       //videoStream.getTracks()[0].stop();
       //webgazer.setCameraConstraints(false);
         
       location.reload();
 
   }
-  this.allElementsFromPoint = function(x,y){
-      var elements = document.elementsFromPoint(x,y);
-      for (var k = 0; k<  elements.length; k++){
-          if( elements[k].classList.contains("item")){
-              return elements[k];
-          }
-      }
-      return null;
-  }
 
   this.onUpdate = function (coord){
-    //console.log("coming from eyeTrackerInput.js");
-      // console.log(this.intervall, this.duration, this.counter); 
-
+      //console.log("coming from eyeTrackerInput.js");
+      //console.log(this.intervall, this.duration, this.counter); //originally worked!! 
+      //console.log(`${coord.x}-${coord.y}`);
       this.x = coord.x;
       this.y = coord.y;
       const timestamp = Date.now();
-      var focusedElement2 = document.elementFromPoint(this.x, this.y);
-      if(focusedElement2 !== null){
-        console.log(focusedElement2.classList);
-  }
-      let focusedElement = this.allElementsFromPoint(this.x, this.y);
-    //will item element wählen - auch wenn ich ein kindelement wähle - geht weiter zum nächsten;
-    
-
-        
-      
-      if (focusedElement == null){
+      let focusedElement = document.elementFromPoint(this.x, this.y);
+      if(focusedElement !== null){
+        focusedElement = focusedElement.closest(".item");
+        /*if(focusedElement !== null){
+            console.log(focusedElement.querySelector('.text-container').innerHTML);
+        }*/
+      }
+      if (focusedElement == null) {
           return;
       }
-      if(focusedElement.querySelector('.text-container') !== null){
-        console.log(focusedElement.querySelector('.text-container').innerHTML);
-      }
-    // let container = document.getElementById("grid-container");
-    // let list = container.children[0];
-    // let lists = list.children;
-    // let listArray = Array.from(lists);
-    // focusedElement = listArray[10]
-  
-// alle items elemente sind ausgefiltert - früher war grid container war der Vater von allen kacheln, 
-// und jetzt vom grid container - nimm alle söhne ... alle items!! verglichen mit dem webgazer .. falls
-// gewählte dokument eines von den söhnen 
 
-    //evaluate the time to reduce or delete counter
-  this.focusedElements.forEach((el) => {
-    if(timestamp - el.timestamp > this.duration){
-        for(let i=1;i<=el.counter;i++){
-            el.ref.classList.remove(`click-duration-`+i)
-        }
-        el.counter = 0;
-    }else if(timestamp - el.timestamp > this.intervall && el.counter >= 1 && focusedElement != el.ref){
-        el.ref.classList.remove(`click-duration-${el.counter}`)
-        el.counter--;
-    }
-});
+      //mock selection start------------------------------------
+      /*let container = document.getElementById("grid-container");
+      let list = container.children[0];
+      let lists = list.children;
+      let listArray = Array.from(lists);
+      focusedElement = listArray[10]*/
+      //mock selection end----------------------------------------
 
+      //evaluate the time to reduce or delete counter
+      this.focusedElements.forEach((el) => {
+          if(timestamp - el.timestamp > this.duration){
+              for(let i=1;i<=el.counter;i++){
+                  el.ref.classList.remove(`click-duration-`+i)
+              }
+              el.counter = 0;
+          }else if(timestamp - el.timestamp > this.intervall && el.counter >= 1 && focusedElement != el.ref){
+              el.ref.classList.remove(`click-duration-${el.counter}`)
+              el.counter--;
+          }
+      });
 
-
-    //   let containItems = listArray.filter((e) => e.classList.contains("item"));
-    //   //elements not found or does not contain item within the grid-element
-    //   if (focusedElement == null || !containItems.includes(focusedElement)) {
-    //       return;
-    //   }
-    
       // the new element should be evaluated if it is a new focusedElement or already within the array
-        //const jj = typeof this.focusedElement.find(({ref}) => ref === focusedElement)
+      //const jj = typeof this.focusedElements.find(({ref}) => ref === focusedElement);
       const elementExists = typeof this.focusedElements.find(({ref}) => ref === focusedElement) !== "undefined";
       if (!elementExists) {
           focusedElement.classList.add(`click-duration-1`);
@@ -127,11 +102,10 @@ function EyeTrackerConstructor(counter,intervall, duration) {
           // find if the new element is already within focusedElements
           const element = this.focusedElements.find(
               ({ref}) => ref === focusedElement
-          );
-          //if (timestamp - element.timestamp > 100) {
+          );        
               element.timestamp = timestamp;
               element.counter++;
-              //console.log (element.ref.querySelector ('.text-container').innerHTML + element.counter)
+              //console.log(element.ref.querySelector('.text-container').innerHTML +element.counter);
               element.ref.classList.add(`click-duration-${element.counter}`);
               element.ref.focus();
               if (element.counter > this.counter) {
@@ -144,8 +118,7 @@ function EyeTrackerConstructor(counter,intervall, duration) {
                       el.counter = 0;
                   });
                   this.focusedElements = [];
-               }
-          //}
+              }
       }
   };
 
